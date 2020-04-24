@@ -10,7 +10,7 @@ class EAMS_BasicBandage: EAMS_ItemCore {\
 	model = "\A3\Structures_F_EPA\Items\Medical\Bandage_F.p3d";\
 	picture = "\eams\data\icons\Bandage_Basic_ICO.paa";\
 	class ItemInfo: CBA_MiscItem_ItemInfo {\
-		mass = 4;\
+		mass = 3;\
 	};\
 };\
 class EAMS_BasicBandage_Half: EAMS_ItemCore {\
@@ -21,7 +21,7 @@ class EAMS_BasicBandage_Half: EAMS_ItemCore {\
 	model = "\A3\Structures_F_EPA\Items\Medical\Bandage_F";\
 	picture = "\eams\data\icons\Bandage_Basic_ICO";\
 	class ItemInfo: CBA_MiscItem_ItemInfo {\
-		mass = 2;\
+		mass = 1.5;\
 	};\
 };\
 class EAMS_Epinephrine: EAMS_ItemCore {\

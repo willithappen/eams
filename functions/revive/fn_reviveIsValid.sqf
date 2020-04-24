@@ -30,10 +30,10 @@ if (side group player getFriend side group _unit < 0.6) exitWith {false};
 if (player distance _unit > REVIVE_DISTANCE) exitWith {false};
 
 //check life state
-if (lifeState _unit != "INCAPACITATED" || ((!IS_DISABLED(_unit)) && (!IS_STABLE(_unit)))) exitWith {false};
+if (lifeState _unit != "INCAPACITATED") exitWith {false};
 
 //Checks if unit is mostly healed
-if (!IS_STABLE(_unit)) exitWith {false};
+if (!IS_STABLE(_unit) || !(IS_HEALTHY(_unit))) exitWith {false};
 //Checks if unit has morphine available
 if (!CAN_USE_EAMSITEM2(_player,_unit,'EAMS_Epinephrine')) exitWith {false};
 true

@@ -35,7 +35,7 @@ if (CAN_USE_MEDIKIT(_healer)) then {
 };
 _currentDamage = _injured getHitPointDamage _limb;
 	if (_currentDamage <= 0.349) then {
-		damageToHeal = 0;
+		damageToHeal = 0.05;
 		//systemChat format ["%1 Damage and Current %2 N2",damageToHeal,_currentDamage];
 		//Does Healer have a half piece to use?
 		if (CAN_USE_EAMSITEM(_healer,'EAMS_BasicBandage_Half')) then {

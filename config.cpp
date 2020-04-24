@@ -58,6 +58,8 @@ class cfgVehicles {
 				 displayName = "Bandage Chest";
 				 condition = "[_target,'hitBody'] call pams_fnc_canHealLimb";
 				 statement = "[_target,'hitBody',_player] call pams_fnc_DoHealLimb";
+				 icon = QUOTE(eams\data\ui\x_0.paa);
+				 modifierFunction = QUOTE([_target,'hitBody',_this select 3] call pams_fnc_modifyColor);
 				};
 			};
 			class ACE_Head {
@@ -66,6 +68,9 @@ class cfgVehicles {
 				 displayName = "Bandage Head";
 				 condition = "[_target,'hitHead'] call pams_fnc_canHealLimb";
 				 statement = "[_target,'HitHead',_player] call pams_fnc_DoHealLimb";
+				 icon = QUOTE(eams\data\ui\x_0.paa);
+				 modifierFunction = QUOTE([_target,'HitHead',_this select 3] call pams_fnc_modifyColor);
+
 				};
 			};
 			class ACE_ArmLeft {
@@ -74,6 +79,9 @@ class cfgVehicles {
 				 displayName = "Bandage Arm";
 				 condition = "[_target,'HitLeftArm'] call pams_fnc_canHealLimb";
 				 statement = "[_target,'HitLeftArm',_player] call pams_fnc_DoHealLimb";
+				 icon = QUOTE(eams\data\ui\x_0.paa);
+				 modifierFunction = QUOTE([_target,'HitLeftArm',_this select 3] call pams_fnc_modifyColor);
+
 				};
 			};
 			class ACE_ArmRight {
@@ -82,6 +90,9 @@ class cfgVehicles {
 				 displayName = "Bandage Arm";
 				 condition = "[_target,'HitRightArm'] call pams_fnc_canHealLimb";
 				 statement = "[_target,'HitRightArm',_player] call pams_fnc_DoHealLimb";
+				 icon = QUOTE(eams\data\ui\x_0.paa);
+				 modifierFunction = QUOTE([_target,'HitRightArm',_this select 3] call pams_fnc_modifyColor);
+
 				};
 			};
 			class ACE_LegLeft {
@@ -90,6 +101,9 @@ class cfgVehicles {
 				 displayName = "Bandage Leg";
 				 condition = "[_target,'HitLeftLeg'] call pams_fnc_canHealLimb";
 				 statement = "[_target,'hitLeftLeg',_player] call pams_fnc_DoHealLimb";
+				 icon = QUOTE(eams\data\ui\x_0.paa);
+				 modifierFunction = QUOTE([_target,'hitLeftLeg',_this select 3] call pams_fnc_modifyColor);
+
 				};
 			};
 			class ACE_LegRight {
@@ -98,6 +112,9 @@ class cfgVehicles {
 				 displayName = "Bandage Leg";
 				 condition = "[_target,'hitRightLeg'] call pams_fnc_canHealLimb";
 				 statement = "[_target,'hitRightLeg',_player] call pams_fnc_DoHealLimb";
+				 icon = QUOTE(eams\data\ui\x_0.paa);
+				 modifierFunction = QUOTE([_target,'hitRightLeg',_this select 3] call pams_fnc_modifyColor);
+
 				};
 			};
 		};
@@ -110,37 +127,50 @@ class cfgVehicles {
 				class EAMS_MedicalRadial_Patch {
 					displayName = "Patch Minor Wounds";
 					condition = "[_player,'patch'] call pams_fnc_canHealLimb";
-					statement = "{_player setHitPointDamage [_x,0];} forEach ((getAllHitPointsDamage _player) select 0)";
+					statement = "_player setdamage 0";
+					icon = QUOTE(eams\data\ui\x_1.paa);
 				};
 				class EAMS_MedicalRadial_Head {
 					displayName = "Bandage Head";
 					condition = "[_player,'hitHead'] call pams_fnc_canHealLimb";
 					statement = "[_player,'HitHead',_player] call pams_fnc_DoHealLimb";
+					icon = QUOTE(eams\data\ui\x_0.paa);
+   				 modifierFunction = QUOTE([_target,'HitHead',_this select 3] call pams_fnc_modifyColor);
 				};
 				class EAMS_MedicalRadial_Chest {
 				displayName = "Bandage Chest";
 				 condition = "[_player,'hitBody'] call pams_fnc_canHealLimb";
 				 statement = "[_player,'hitBody',_player] call pams_fnc_DoHealLimb";
+				 icon = QUOTE(eams\data\ui\x_0.paa);
+				 modifierFunction = QUOTE([_target,'hitBody',_this select 3] call pams_fnc_modifyColor);
 				};
 				class EAMS_MedicalRadial_ArmLeft {
 				displayName = "Bandage Left Arm";
 				 condition = "[_player,'HitLeftArm'] call pams_fnc_canHealLimb";
 				 statement = "[_player,'HitLeftArm',_player] call pams_fnc_DoHealLimb";
+				 icon = QUOTE(eams\data\ui\x_0.paa);
+				 modifierFunction = QUOTE([_target,'HitLeftArm',_this select 3] call pams_fnc_modifyColor);
 				};
 				class EAMS_MedicalRadial_ArmRight {
 				displayName = "Bandage Right Arm";
 				 condition = "[_player,'HitRightArm'] call pams_fnc_canHealLimb";
 				 statement = "[_player,'HitRightArm',_player] call pams_fnc_DoHealLimb";
+				 icon = QUOTE(eams\data\ui\x_0.paa);
+				 modifierFunction = QUOTE([_target,'HitRightArm',_this select 3] call pams_fnc_modifyColor);
 				};
 				class EAMS_MedicalRadial_LegLeft {
 				displayName = "Bandage Left Leg";
 				 condition = "[_player,'HitLeftLeg'] call pams_fnc_canHealLimb";
 				 statement = "[_player,'hitLeftLeg',_player] call pams_fnc_DoHealLimb";
+				 icon = QUOTE(eams\data\ui\x_0.paa);
+				 modifierFunction = QUOTE([_target,'hitLeftLeg',_this select 3] call pams_fnc_modifyColor);
 				};
 				class EAMS_MedicalRadial_LegRight {
 					displayName = "Bandage Right Leg";
 				 condition = "[_player,'hitRightLeg'] call pams_fnc_canHealLimb";
 				 statement = "[_player,'hitRightLeg',_player] call pams_fnc_DoHealLimb";
+				 icon = QUOTE(eams\data\ui\x_0.paa);
+				 modifierFunction = QUOTE([_target,'hitRightLeg',_this select 3] call pams_fnc_modifyColor);
 				};
 			};
 		};
@@ -275,6 +305,7 @@ class cfgFunctions {
 				class useBandage {};
 				class canHealLimb {};
 				class doHealLimb {};
+				class modifyColor {};
 				class stabilizeComplete {};
 				class stabilizeFailed {};
 				class reviveComplete {};

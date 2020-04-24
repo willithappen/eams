@@ -15,7 +15,7 @@
 #define DEFAULT_BLEEDOUT_TIME				120		//default time (in seconds) that it takes to bleed out
 
 //damage model
-#define MAX_SAFE_DAMAGE						0.965
+#define MAX_SAFE_DAMAGE						0.975
 
 /*--------------------------------------------------------------------------------------------------
 
@@ -219,7 +219,7 @@
 #define IS_STABLE(unit)								(GET_STATE(unit) == STATE_STABILIZED)
 #define IS_NOTSAFEMOVE(unit)						(!IS_DISABLED(unit) && {!IS_STABLE(unit)})
 #define IS_ACTIVE(unit)								(GET_STATE(unit) < STATE_INCAPACITATED)
-#define IS_HEALTHY(unit)							(((unit getHitPointDamage 'Incapacitated') <= 0.35))
+#define IS_HEALTHY(unit)							[unit,'patch'] call pams_fnc_canHealLimb
 /*--------------------------------------------------------------------------------------------------
 
 	EAMS Defines
@@ -234,6 +234,7 @@
 	ICON STATES
 
 --------------------------------------------------------------------------------------------------*/
+
 #define ICON_STATE_ADD						-1
 #define ICON_STATE_REMOVE					-2
 #define ICON_STATE_FORCING_RESPAWN			-3

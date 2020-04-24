@@ -33,7 +33,5 @@ if (player distance _unit > REVIVE_DISTANCE) exitWith {false};
 if ((lifeState _unit != "INCAPACITATED") || (!IS_DISABLED(_unit))) exitWith {false};
 
 //Checks if unit is mostly healed
-if (!IS_HEALTHY(_unit)) exitWith {false};
-//Checks if unit has morphine available
-if (!CAN_USE_EAMSITEM2(_player,_unit,'EAMS_Epinephrine')) exitWith {false};
+if !(IS_HEALTHY(_unit)) exitWith {false};
 true

@@ -43,7 +43,7 @@ if (alive _unit) then
 	else
 	{
 	//incapacitation mode: basic
-		if ((_unit getHitPointDamage "EAMS_Incapacitated") >= 0.88) exitWith {
+		if ((_unit getHitPointDamage "EAMS_Incapacitated") >= 0.88) then {
 			private _isCrash = vehicle _unit == _source;
 			//make incapacitated unit covered by blood, needed for smooth secure transition (which is actually kill)
 			//_unit setDamage MAX_SAFE_DAMAGE;
