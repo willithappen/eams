@@ -66,6 +66,19 @@ _currentDamage = _injured getHitPointDamage _limb;
 	};
 //systemChat format ["%1 Damage and Current %2 N3",damageToHeal,_currentDamage];
 _hitPointDamage = {_this select 0 setHitPointDamage [_this select 1,_this select 2];};
-[_duration,[_injured,_limb,_healer,damageToHeal], {_args select 2 playAction 'MedicStop';{(_args select 0) setHitPointDamage [_args select 1, _args select 3]} remoteExec ["BIS_FNC_CALL",0];}, {_args select 2 playAction 'medicStop';}, 'Bandaging...'] call ace_common_fnc_progressBar;
+[_duration,[_injured,_limb,_healer,damageToHeal],
+{
+	params ["_args"];
+	(_args select 2) playAction 'MedicStop';
+
+	[_args, {
+		(_this select 0) setHitPointDamage [_this select 1, _this select 3];
+	}] remoteExecCall ["BIS_FNC_CALL",0];
+},
+{
+	params ["_args"];
+	(_args select 2) playAction 'medicStop';
+}, 'Bandaging...'] call ace_common_fnc_progressBar;
+
 if (_sd) exitWith {true};
 false
