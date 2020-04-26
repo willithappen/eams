@@ -41,7 +41,7 @@ if (CAN_USE_MEDIKIT(_healer)) then {
 };
 _currentDamage = _injured getHitPointDamage _limb;
 	if (_currentDamage <= 0.349) then {
-		damageToHeal = 0.05;
+		damageToHeal = 0;
 		//systemChat format ["%1 Damage and Current %2 N2",damageToHeal,_currentDamage];
 		//Does Healer have a half piece to use?
 		if (CAN_USE_EAMSITEM(_healer,'EAMS_BasicBandage_Half')) then {
@@ -79,7 +79,7 @@ _hitPointDamage = {_this select 0 setHitPointDamage [_this select 1,_this select
 
 	[_args, {
 		(_this select 0) setHitPointDamage [_this select 1, _this select 3];
-	}] remoteExecCall ["BIS_FNC_CALL",0];
+	}] remoteExecCall ["BIS_FNC_CALL",_args select 0];
 },
 {
 	params ["_args"];

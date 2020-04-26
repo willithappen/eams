@@ -126,7 +126,7 @@ class cfgVehicles {
 				showDisabled = 0;
 				class EAMS_MedicalRadial_Patch {
 					displayName = "Patch Minor Wounds";
-					condition = "[_player,'patch'] call pams_fnc_canHealLimb";
+					condition = "[_player,'patch'] call pams_fnc_canHealLimb && ((getDammage _player) > 0)";
 					statement = "_player setdamage 0";
 					icon = QUOTE(eams\data\ui\x_1.paa);
 				};

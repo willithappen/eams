@@ -56,7 +56,7 @@ _sd = false;
 _eamsYes = false;
 if (_limb isEqualTo 'patch') then {
 	_damages = (['HitHead', 'HitBody', 'hitLeftArm', 'hitRightArm', 'hitLeftLeg', 'hitRightLeg'] apply {_target getHitPointDamage _x});
-	if ((selectMax _damages <= 0.05) && (selectMax _damages > 0)) then {
+	if (selectMax _damages < 0.08) then {
 		if (isNull _healer) then {
 			if (CAN_USE_EAMSITEM2(_healer,_target,'EAMS_Epinephrine')) then {_eamsYes = true; _sd = true;};
 		} else {
@@ -65,7 +65,7 @@ if (_limb isEqualTo 'patch') then {
 	};
 } else {
 	_damage = _target getHitPointDamage _limb;
-	if (_damage > 0.05) then {_sd = true};
+	if (_damage > 0) then {_sd = true};
 	if (isNull _healer) then {
 		if ((CAN_USE_EAMSITEM2(_healer,_target,'EAMS_BasicBandage')) || (CAN_USE_EAMSITEM2(_healer,_target,'EAMS_BasicBandage_Half'))) then {_eamsYes = true} else {_eamsYes = false};
 	} else {
