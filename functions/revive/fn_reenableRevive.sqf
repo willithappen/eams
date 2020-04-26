@@ -12,7 +12,7 @@
 	nothing
 
 	Example:
-	[player] call pams_fnc_reenableRevive;
+	[player] call eams_fnc_reenableRevive;
 */
 
 params[["_unit",objNull,[objNull]]]; if (isNull _unit) exitWith {};
@@ -41,7 +41,7 @@ private _state = switch (lifeState _unit) do
 };
 
 //disable built-in death messages
-if (pams_revive_killfeedShow && !pams_revive_hudLocked) then
+if (eams_revive_killfeedShow && !eams_revive_hudLocked) then
 {
 	private _hud = shownHUD; _hud set [9, false]; showHUD _hud;
 };

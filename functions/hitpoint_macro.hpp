@@ -87,7 +87,7 @@ class HitFace {\
 		armor = 3;\
 		material = -1;\
 		name = "arms";\
-		depends = "(hitLeftArm + hitRightArm) * 0.5";\
+		depends = "";\
 		visual = "injury_hands";\
 		passThrough = 0.1;\
 		radius = 0.1;\
@@ -111,7 +111,7 @@ class HitFace {\
 		armor = 3;\
 		material = -1;\
 		name = "legs";\
-		depends = "(HitLeftLeg + HitRightLeg) * 0.5";\
+		depends = "";\
 		visual = "injury_legs";\
 		passThrough = 0.1;\
 		radius = 0.14;\
@@ -120,7 +120,7 @@ class HitFace {\
 	};\
 	class EAMS_Incapacitated {\
 		armor = 1000;\
-		depends = "(hitLegs * 0.15) + (hitArms * 0.20) + (hitBody * 0.45) + (HitHead * 0.55) + (Total * 0.35)";\
+		depends = "((hitLeftLeg + hitRightLeg) * 0.15) + ((hitLeftArm + hitRightArm) * 0.20) + (hitBody * 0.45) + (HitHead * 0.55) + (Total * 0.35)";\
 		explosionShielding = 1;\
 		material = -1;\
 		minimalHit = 0;\

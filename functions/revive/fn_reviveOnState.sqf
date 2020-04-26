@@ -30,18 +30,6 @@ private _unit  	= param [2, objNull, [objNull]];
 
 if (isNull _unit) exitWith {};
 
-if (_state isEqualType []) then
-{
-	_source	= _state param [1, objNull, [objNull]];
-	_reason	= _state param [2, DEATH_REASON_UNKNOWN, [123]];
-	_state 	= _state param [0, STATE_RESPAWNED, [123]];
-}
-else
-{
-	_source	= objNull;
-	_reason = DEATH_REASON_UNKNOWN;
-};
-
 _unitVar = GET_UNIT_VAR(_unit);
 _playerVar = GET_UNIT_VAR(player);
 
@@ -62,8 +50,8 @@ switch (_state) do
 		private _sideUnit = side group _unit;
 
 		//flag player as being incapacitated
-		_unit setVariable ["pams_revive_incapacitated", true];
-		_unit setVariable ["pams_revive_unstable", true];
+		_unit setVariable ["eams_revive_incapacitated", true];
+		_unit setVariable ["eams_revive_unstable", true];
 		_unit setVariable ["ACE_isUnconscious",true];
 		//display "incapacitated" message in kill-feed
 
@@ -88,7 +76,7 @@ switch (_state) do
 			player setVariable ["ACE_isUnconscious",true];
 
 			//start bleeding
-			[_unitVar] call pams_fnc_reviveBleedOut;
+			[_unitVar] call eams_fnc_reviveBleedOut;
 
 			//disable player"s action menu
 			{inGameUISetEventHandler [_x, "true"]} forEach ["PrevAction", "NextAction"];
@@ -96,14 +84,14 @@ switch (_state) do
 		else
 		{
 			//init icon for everyone but player
-			//[ICON_STATE_ADD, _unitVar] call pams_fnc_reviveIconControl;
+			//[ICON_STATE_ADD, _unitVar] call eams_fnc_reviveIconControl;
 		};
 
 		//update pool of incapacitated units
 		if (_playerVar != _unitVar && {_sidePlayer getFriend _sideUnit > 0 && {_sideUnit getFriend _sidePlayer > 0}}) then
 		{
-			//pams_revive_incapacitatedUnits pushBackUnique _unitVar;
-			//pams_revive_unstableUnits pushBackUnique _unitVar;
+			//eams_revive_incapacitatedUnits pushBackUnique _unitVar;
+			//eams_revive_unstableUnits pushBackUnique _unitVar;
 
 		};
 
@@ -112,54 +100,15 @@ switch (_state) do
 		{
 			_unit playAction "Unconscious";
 		};
-
-		if (local _unit) then
-		{
-			if (pams_revive_3rdPersonViewAllowed) then
-			{
-				[] spawn
-				{
-					if (cameraView != "external") then
-					{
-						titleCut ["","BLACK OUT",0.5];
-						sleep 0.5;
-						player switchCamera "external";
-						titleCut ["","BLACK IN",0.5];
-					};
-
-					//create force-respawn action
-					//#include "_addAction_respawn.inc"
-
-					//lock player camera to external while incapacitated or dead
-					while {!IS_ACTIVE(player)} do
-					{
-						if (cameraView != "external") then {player switchCamera "external";};
-						sleep 0.001;
-					};
-				};
-			}
-			else
-			{
-				//create force-respawn action
-				//#include "_addAction_respawn.inc"
-			};
-		}
-		else
-		{
-			//show incapacitated icon for everyone but player
-			//[ICON_STATE_INCAPACITATED, _unitVar] call pams_fnc_reviveIconControl;
-
-			//create revive & secure actions
-		};
 	};
 	case STATE_DEAD:
 	{
-		//pams_revive_incapacitatedUnits = pams_revive_incapacitatedUnits - [_unitVar];
-		//pams_revive_unstableUnits = pams_revive_unstableUnits - [_unitVar];
+		//eams_revive_incapacitatedUnits = eams_revive_incapacitatedUnits - [_unitVar];
+		//eams_revive_unstableUnits = eams_revive_unstableUnits - [_unitVar];
 
 		//flag unit as being NOT incapacitated
-		_unit setVariable ["pams_revive_incapacitated", false];
-		_unit setVariable ["pams_revive_unstable", false];
+		_unit setVariable ["eams_revive_incapacitated", false];
+		_unit setVariable ["eams_revive_unstable", false];
 
 		_unit setVariable ["ACE_isUnconscious",false];
 		//init and show dead icon for everyone but player
@@ -168,7 +117,7 @@ switch (_state) do
 			//init icon for everyone but player
 			if (lifeState _unit != "INCAPACITATED") then
 			{
-				//[ICON_STATE_ADD, _unitVar] call pams_fnc_reviveIconControl;
+				//[ICON_STATE_ADD, _unitVar] call eams_fnc_reviveIconControl;
 			};
 
 			//reset "being revived" and "forcing respawn" flags locally
@@ -178,12 +127,12 @@ switch (_state) do
 			//remove revive and secure user actions
 			{if (_x != -1) then {[_unit,_x] call bis_fnc_holdActionRemove}} forEach [_unit getVariable [VAR_ACTION_ID_REVIVE,-1],_unit getVariable [VAR_ACTION_ID_SECURE,-1],_unit getVariable [VAR_ACTION_ID_STABILIZE,-1]];
 
-			//[ICON_STATE_DEAD, _unitVar] call pams_fnc_reviveIconControl;
+			//[ICON_STATE_DEAD, _unitVar] call eams_fnc_reviveIconControl;
 		}
 		else
 		{
 			//not bleeding
-			pams_revive_bleeding = false;
+			eams_revive_bleeding = false;
 			// enable talking (direct)
 			player setVariable ["tf_voiceVolume", 1, true];
 			// unmute hearing
@@ -204,11 +153,11 @@ switch (_state) do
 	{
 		if ((_statePrev == STATE_DEAD) || (_statePrev == STATE_REVIVED) || (_statePrev == STATE_RESPAWNED)) exitWith {};
 
-		//pams_revive_incapacitatedUnits = pams_revive_incapacitatedUnits - [_unitVar];
-		//pams_revive_unstableUnits = pams_revive_unstableUnits - [_unitVar];
+		//eams_revive_incapacitatedUnits = eams_revive_incapacitatedUnits - [_unitVar];
+		//eams_revive_unstableUnits = eams_revive_unstableUnits - [_unitVar];
 		//flag unit as being NOT incapacitated
-		_unit setVariable ["pams_revive_incapacitated", false];
-		_unit setVariable ["pams_revive_unstable", false];
+		_unit setVariable ["eams_revive_incapacitated", false];
+		_unit setVariable ["eams_revive_unstable", false];
 		_unit setVariable ["ACE_isUnconscious",false];
 		//display "revived" message in kill-feed; only if revived unit is friendly
 
@@ -216,7 +165,7 @@ switch (_state) do
 		{
 			systemChat str(_unit);
 			//reset death reason
-			pams_revive_deathReason = DEATH_REASON_UNKNOWN;
+			eams_revive_deathReason = DEATH_REASON_UNKNOWN;
 			// enable talking (direct)
 			player setVariable ["tf_voiceVolume", 1, true];
 			// unmute hearing
@@ -225,7 +174,7 @@ switch (_state) do
 			player setVariable ["tf_unable_to_use_radio", false];
 			player setVariable ["ACE_isUnconscious",false];
 			//not bleeding
-			pams_revive_bleeding = false;
+			eams_revive_bleeding = false;
 
 			//remove unconscious state
 			_unit setUnconscious false;
@@ -274,7 +223,7 @@ switch (_state) do
 			if (_actionID != -1) then {[_unit,_actionID] call bis_fnc_holdActionRemove;};
 
 			//ALWAYS heal to full
-			[] call pams_fnc_reviveDamageReset;
+			[] call eams_fnc_reviveDamageReset;
 		}
 		else
 		{
@@ -286,22 +235,22 @@ switch (_state) do
 			{if (_x != -1) then {[_unit,_x] call bis_fnc_holdActionRemove}} forEach [_unit getVariable [VAR_ACTION_ID_REVIVE,-1],_unit getVariable [VAR_ACTION_ID_SECURE,-1],_unit getVariable [VAR_ACTION_ID_STABILIZE,-1]];
 
 			//remove incap/dead icon
-			//[ICON_STATE_REMOVE,_unitVar] call pams_fnc_reviveIconControl;
+			//[ICON_STATE_REMOVE,_unitVar] call eams_fnc_reviveIconControl;
 		};
 	};
 	case STATE_STABILIZED:
 	{
 		if (_statePrev != STATE_INCAPACITATED) exitWith {};
 
-		//pams_revive_unstableUnits = pams_revive_unstableUnits - [_unitVar];
+		//eams_revive_unstableUnits = eams_revive_unstableUnits - [_unitVar];
 
 		//flag unit as being NOT unstable
-		_unit setVariable ["pams_revive_unstable", false];
+		_unit setVariable ["eams_revive_unstable", false];
 
 		if (local _unit) then
 		{
 			//not bleeding
-			pams_revive_bleeding = false;
+			eams_revive_bleeding = false;
 			// enable talking (direct)
 			player setVariable ["tf_voiceVolume", 1, true];
 			// unmute hearing
@@ -329,11 +278,11 @@ switch (_state) do
 	};
 	case STATE_RESPAWNED:
 	{
-		//pams_revive_incapacitatedUnits = pams_revive_incapacitatedUnits - [_unitVar];
-		//pams_revive_unstableUnits = pams_revive_unstableUnits - [_unitVar];
+		//eams_revive_incapacitatedUnits = eams_revive_incapacitatedUnits - [_unitVar];
+		//eams_revive_unstableUnits = eams_revive_unstableUnits - [_unitVar];
 		//flag player as being NOT incapacitated
-		_unit setVariable ["pams_revive_incapacitated", false];
-		_unit setVariable ["pams_revive_unstable", false];
+		_unit setVariable ["eams_revive_incapacitated", false];
+		_unit setVariable ["eams_revive_unstable", false];
 
 		if (local _unit) then
 		{
@@ -341,10 +290,10 @@ switch (_state) do
 			AI_PROTECTION_DEACTIVATE(_unit);
 
 			//reset death reason
-			pams_revive_deathReason = DEATH_REASON_UNKNOWN;
+			eams_revive_deathReason = DEATH_REASON_UNKNOWN;
 
 			//not bleeding
-			pams_revive_bleeding = false;
+			eams_revive_bleeding = false;
 
 			//reset blood level and stored bleed damage
 			_unit setVariable [VAR_DAMAGE_BLEED, 0];
@@ -357,9 +306,6 @@ switch (_state) do
 			//enable player"s action menu
 			{inGameUISetEventHandler [_x, ""]} forEach ["PrevAction", "NextAction"];
 
-			//restore player"s camera
-			_unit switchCamera (_unit getVariable [VAR_CAMERA_VIEW, "internal"]);
-
 			//remove user action
 			private _actionID = _unit getVariable [VAR_ACTION_ID_RESPAWN,-1];
 			if (_actionID != -1) then {[_unit,_actionID] call bis_fnc_holdActionRemove;};
@@ -371,7 +317,7 @@ switch (_state) do
 			player setVariable ["tf_unable_to_use_radio", false];
 			player setVariable ["ACE_isUnconscious",false];
 			//reset wound data
-			[] call pams_fnc_reviveDamageReset;
+			[] call eams_fnc_reviveDamageReset;
 		}
 		else
 		{
@@ -383,7 +329,7 @@ switch (_state) do
 			{if (_x != -1) then {[_unit,_x] call bis_fnc_holdActionRemove}} forEach [_unit getVariable [VAR_ACTION_ID_REVIVE,-1],_unit getVariable [VAR_ACTION_ID_SECURE,-1],_unit getVariable [VAR_ACTION_ID_STABILIZE,-1]];
 
 			//remove incap/dead icon
-			//[ICON_STATE_REMOVE,_unitVar] call pams_fnc_;
+			//[ICON_STATE_REMOVE,_unitVar] call eams_fnc_;
 		};
 	};
 	default

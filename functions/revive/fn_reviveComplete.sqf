@@ -15,7 +15,7 @@
 params ['_player','_target'];
 SET_BEING_REVIVED(_target,false);
 
-if (pams_revive_killfeedShow) then
+if (eams_revive_killfeedShow) then
 {
 	SET_STATE_XTRA(_target,STATE_REVIVED,player);
 }

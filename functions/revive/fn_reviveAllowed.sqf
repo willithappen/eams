@@ -15,7 +15,7 @@
 	< 0: unit is NOT able to perform revive action
 
 	Example:
-	_reviveAllowed = [_unit,_target] call pams_fnc_reviveAllowed;
+	_reviveAllowed = [_unit,_target] call eams_fnc_reviveAllowed;
 */
 
 params[["_unit",objNull,[objNull]],["_target",objNull,[objNull]]];
@@ -31,7 +31,7 @@ if (!REVIVE_ENABLED(_unit)) exitWith {ALLOW_CHECK_REVIVE_DISABLED};
 
 //unit doesn"t have required trait "medic"
 private _isMedic = _unit getUnitTrait "Medic";
-if (pams_revive_requiredTrait == 1 && {!_isMedic}) exitWith {ALLOW_CHECK_REQUIRE_MEDIC};
+if (eams_revive_requiredTrait == 1 && {!_isMedic}) exitWith {ALLOW_CHECK_REQUIRE_MEDIC};
 
 //equipment not required
-if (pams_revive_requiredItems == 0) exitWith {ALLOW_CHECK_OK};
+if (eams_revive_requiredItems == 0) exitWith {ALLOW_CHECK_OK};

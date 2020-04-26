@@ -12,7 +12,7 @@
 	nothing
 
 	Example:
-	[] call pams_fnc_reviveDamageReset;
+	[] call eams_fnc_reviveDamageReset;
 */
 
 if (isNull player) exitWith {};

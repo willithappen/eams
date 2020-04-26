@@ -20,7 +20,7 @@ if (_mode == MODE_START && {!isNull _script}) exitWith {};
 
 _script = [] spawn
 {
-	scriptName "pams_fnc_reviveDebug";
+	scriptName "eams_fnc_reviveDebug";
 
 	private _fn_getUnitInfo =
 	{

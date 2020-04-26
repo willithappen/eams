@@ -19,8 +19,8 @@
 		hitArms/hitHands
 		hitLegs
 
-	Example: [_target,'head'] call pams_fnc_canHealLimb; -- Returns true or false
-	Example: [_target,'hitArms',true] call pams_fnc_canHealLimb; -- Returns a Number
+	Example: [_target,'head'] call eams_fnc_canHealLimb; -- Returns true or false
+	Example: [_target,'hitArms',true] call eams_fnc_canHealLimb; -- Returns a Number
 	Returns:
 	none
 */
@@ -35,43 +35,19 @@ if (_injured isEqualTo _healer) then {
  _anim = ["AinvPknlMstpSlayWrflDnon_medicOther","AinvPpneMstpSlayWrflDnon_medicOther"] select (stance _healer == "PRONE");
 };
 _healer playmove _anim;
-_duration = pams_revive_duration/8;
+_duration = eams_revive_duration/9;
 if (CAN_USE_MEDIKIT(_healer)) then {
-	_duration = pams_revive_durationMedic/3;
+	_duration = eams_revive_durationMedic/2;
 };
 _currentDamage = _injured getHitPointDamage _limb;
-	if (_currentDamage <= 0.349) then {
+	if (_currentDamage > 0) then {
 		damageToHeal = 0;
-		//systemChat format ["%1 Damage and Current %2 N2",damageToHeal,_currentDamage];
-		//Does Healer have a half piece to use?
-		if (CAN_USE_EAMSITEM(_healer,'EAMS_BasicBandage_Half')) then {
-			_healer removeItem 'EAMS_BasicBandage_Half'} else {
-			//Does Injured have a half piece to use?
-			if (CAN_USE_EAMSITEM(_injured,'EAMS_BasicBandage_Half')) then {_injured removeItem 'EAMS_BasicBandage_Half'} else {
-				//Does healer have a full piece to use? Convert to a half piece if so
-				if (CAN_USE_EAMSITEM(_healer,'EAMS_BasicBandage')) then {EAMS_BANDAGESPLIT_BASIC(_healer)} else {
-					//Does injured have a full piece to use? Convert to a half piece if so
-					if (CAN_USE_EAMSITEM(_injured,'EAMS_BasicBandage')) then {EAMS_BANDAGESPLIT_BASIC(_injured)};
-				};
-			};
-		};
-	};
-	if ((_currentDamage > 0.349) && (_currentDamage <= 0.5)) then {
-		damageToHeal = _currentDamage - 0.3;
 		//systemChat format ["%1 Damage and Current %2 N2",damageToHeal,_currentDamage];
 		if (CAN_USE_EAMSITEM(_healer,'EAMS_BasicBandage')) then {EAMS_BANDAGESPLIT_BASIC(_healer)} else {
 			if (CAN_USE_EAMSITEM(_injured,'EAMS_BasicBandage')) then {EAMS_BANDAGESPLIT_BASIC(_injured)};
 		};
 	};
-	if (_currentDamage > 0.5) then {
-		damageToHeal = _currentDamage - 0.5;
-		//systemChat format ["%1 Damage and Current %2 N2",damageToHeal,_currentDamage];
-		if (CAN_USE_EAMSITEM(_healer,'EAMS_BasicBandage')) then {_healer removeItem 'EAMS_BasicBandage'} else {
-			if (CAN_USE_EAMSITEM(_injured,'EAMS_BasicBandage')) then {_injured removeItem 'EAMS_BasicBandage'};
-		};
-	};
 //systemChat format ["%1 Damage and Current %2 N3",damageToHeal,_currentDamage];
-_hitPointDamage = {_this select 0 setHitPointDamage [_this select 1,_this select 2];};
 [_duration,[_injured,_limb,_healer,damageToHeal],
 {
 	params ["_args"];

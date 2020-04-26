@@ -5,9 +5,9 @@ params[["_unit", objNull, [objNull]], ["_killer", objNull, [objNull]], ["_instig
 if (REVIVE_ENABLED(_unit)) then
 {
 	//replace default kill-feed messages
-	if (pams_revive_killfeedShow && !pams_revive_hudLocked) then
+	if (eams_revive_killfeedShow && !eams_revive_hudLocked) then
 	{
-		private _deathReason = missionNamespace getVariable ["pams_revive_deathReason",DEATH_REASON_UNKNOWN];
+		private _deathReason = missionNamespace getVariable ["eams_revive_deathReason",DEATH_REASON_UNKNOWN];
 
 		//detect force respawn option from pause menu
 		if (_unit isEqualTo _killer && {_deathReason == DEATH_REASON_UNKNOWN}) then
@@ -18,8 +18,8 @@ if (REVIVE_ENABLED(_unit)) then
 		//detect secure action
 		if (_unit isEqualTo _killer && {_deathReason == DEATH_REASON_SECURED}) then
 		{
-			_killer = missionNamespace getVariable ["pams_revive_deathSource",objNull];
-			pams_revive_deathSource = objNull;
+			_killer = missionNamespace getVariable ["eams_revive_deathSource",objNull];
+			eams_revive_deathSource = objNull;
 		};
 
 		if (_deathReason > DEATH_REASON_UNKNOWN) then
@@ -31,7 +31,7 @@ if (REVIVE_ENABLED(_unit)) then
 			SET_STATE_XTRA(_unit,STATE_DEAD,_killer);
 		};
 
-		pams_revive_deathReason = DEATH_REASON_UNKNOWN;
+		eams_revive_deathReason = DEATH_REASON_UNKNOWN;
 	}
 	else
 	{

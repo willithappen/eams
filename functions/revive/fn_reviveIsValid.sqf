@@ -12,7 +12,7 @@
 	BOOL - is player able to revive the unit and is the unit revivable?
 
 	Example:
-	_reviveIsValid = [_unit] call pams_fnc_reviveIsValid;
+	_reviveIsValid = [_unit] call eams_fnc_reviveIsValid;
 */
 params
 [

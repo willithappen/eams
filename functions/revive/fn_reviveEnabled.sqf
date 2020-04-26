@@ -12,7 +12,7 @@
 	True if revive is enabled, false if not.
 
 	Example
-	[player] call pams_fnc_reviveEnabled;
+	[player] call eams_fnc_reviveEnabled;
 */
 
 params[["_unit",objNull,[objNull]]];

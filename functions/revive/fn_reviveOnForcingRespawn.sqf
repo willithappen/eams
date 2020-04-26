@@ -42,7 +42,7 @@ if (IS_BEING_REVIVED(_unit)) exitWith {};
 //show icon indicating player is forcing respawn
 if (_state && {!local _unit}) then
 {
-	[ICON_STATE_FORCING_RESPAWN, _unitVar] call pams_fnc_reviveIconControl;
+	[ICON_STATE_FORCING_RESPAWN, _unitVar] call eams_fnc_reviveIconControl;
 };
 */
 true

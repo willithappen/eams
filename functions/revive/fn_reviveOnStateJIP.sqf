@@ -53,53 +53,53 @@ switch (_state) do
 		_sideUnit = side group _unit;
 
 		//flag player as being incapacitated
-		_unit setVariable ["pams_revive_incapacitated", true];
-		_unit setVariable ["pams_revive_unstable", true];
+		_unit setVariable ["eams_revive_incapacitated", true];
+		_unit setVariable ["eams_revive_unstable", true];
 		_unit setVariable ["ACE_isUnconscious",true];
 
 		//init icon
-		//[ICON_STATE_ADD, _unitVar] call pams_fnc_reviveIconControl;
+		//[ICON_STATE_ADD, _unitVar] call eams_fnc_reviveIconControl;
 
 		//update pool of incapacitated units
 		if (_playerVar != _unitVar && {_sidePlayer getFriend _sideUnit > 0 && {_sideUnit getFriend _sidePlayer > 0}}) then
 		{
-			//pams_revive_incapacitatedUnits pushBackUnique _unitVar;
-			//pams_revive_unstableUnits pushBackUnique _unitVar;
+			//eams_revive_incapacitatedUnits pushBackUnique _unitVar;
+			//eams_revive_unstableUnits pushBackUnique _unitVar;
 		};
 
 		//show incapacitated icon for everyone but player
-		//[ICON_STATE_INCAPACITATED, _unitVar] call pams_fnc_reviveIconControl;
+		//[ICON_STATE_INCAPACITATED, _unitVar] call eams_fnc_reviveIconControl;
 
 		//create revive & secure actions
 	};
 	case STATE_DEAD:
 	{
-		//pams_revive_incapacitatedUnits = pams_revive_incapacitatedUnits - [_unitVar];
-		//pams_revive_unstableUnits = pams_revive_unstableUnits - [_unitVar];
+		//eams_revive_incapacitatedUnits = eams_revive_incapacitatedUnits - [_unitVar];
+		//eams_revive_unstableUnits = eams_revive_unstableUnits - [_unitVar];
 
 		//flag player as being NOT incapacitated and NOT unstable
-		_unit setVariable ["pams_revive_incapacitated", false];
-		_unit setVariable ["pams_revive_unstable", false];
+		_unit setVariable ["eams_revive_incapacitated", false];
+		_unit setVariable ["eams_revive_unstable", false];
 		//reset "being revived" and "forcing respawn" flags
 		SET_BEING_REVIVED_LOCAL(_unit, false);
 		SET_FORCING_RESPAWN_LOCAL(_unit, false);
 		_unit setVariable ["ACE_isUnconscious",false];
 
 		//init icon
-		//[ICON_STATE_ADD, _unitVar] call pams_fnc_reviveIconControl;
+		//[ICON_STATE_ADD, _unitVar] call eams_fnc_reviveIconControl;
 
 		//init and show dead icon for everyone but player
-		//[ICON_STATE_DEAD, _unitVar] call pams_fnc_reviveIconControl;
+		//[ICON_STATE_DEAD, _unitVar] call eams_fnc_reviveIconControl;
 	};
 	case STATE_RESPAWNED;
 	case STATE_REVIVED:
 	{
-		//pams_revive_incapacitatedUnits = pams_revive_incapacitatedUnits - [_unitVar];
-		//pams_revive_unstableUnits = pams_revive_unstableUnits - [_unitVar];
+		//eams_revive_incapacitatedUnits = eams_revive_incapacitatedUnits - [_unitVar];
+		//eams_revive_unstableUnits = eams_revive_unstableUnits - [_unitVar];
 
 		//flag player as being NOT incapacitated
-		_unit setVariable ["pams_revive_incapacitated", false];
-		_unit setVariable ["pams_revive_unstable", false];
+		_unit setVariable ["eams_revive_incapacitated", false];
+		_unit setVariable ["eams_revive_unstable", false];
 		//reset "being revived" and "forcing respawn" flags
 		SET_BEING_REVIVED_LOCAL(_unit, false);
 		SET_FORCING_RESPAWN_LOCAL(_unit, false);
@@ -107,10 +107,10 @@ switch (_state) do
 	};
 	case STATE_STABILIZED:
 	{
-		//pams_revive_unstableUnits = pams_revive_unstableUnits - [_unitVar];
+		//eams_revive_unstableUnits = eams_revive_unstableUnits - [_unitVar];
 
 		//flag player as being NOT incapacitated
-		_unit setVariable ["pams_revive_unstable", false];
+		_unit setVariable ["eams_revive_unstable", false];
 
 		//reset "being revived" and "forcing respawn" flags
 		SET_BEING_STABILIZED_LOCAL(_unit, false);

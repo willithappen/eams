@@ -42,7 +42,7 @@ _unit setVariable [VAR_BEING_STABILIZED, _state];
 /*
 if (_state && {!local _unit}) then
 {
-	[ICON_STATE_BEING_STABILIZED, _unitVar] call pams_fnc_reviveIconControl;
+	[ICON_STATE_BEING_STABILIZED, _unitVar] call eams_fnc_reviveIconControl;
 };
 */
 true
