@@ -64,6 +64,7 @@ switch (_state) do
 		//flag player as being incapacitated
 		_unit setVariable ["pams_revive_incapacitated", true];
 		_unit setVariable ["pams_revive_unstable", true];
+		_unit setVariable ["ACE_isUnconscious",true];
 		//display "incapacitated" message in kill-feed
 
 		if (local _unit) then
@@ -84,6 +85,7 @@ switch (_state) do
 			player setVariable ["tf_globalVolume", 0.3];
 			// disable talking (radio)
 			player setVariable ["tf_unable_to_use_radio", true];
+			player setVariable ["ACE_isUnconscious",true];
 
 			//start bleeding
 			[_unitVar] call pams_fnc_reviveBleedOut;
@@ -159,96 +161,7 @@ switch (_state) do
 		_unit setVariable ["pams_revive_incapacitated", false];
 		_unit setVariable ["pams_revive_unstable", false];
 
-		//display "incapacitated" message in kill-feed
-		if (pams_revive_killfeedShow && !pams_revive_hudLocked) then
-		{
-			//do not display "friend only" messages to enemies
-			if (_reason > 10 && {side group _unit getFriend side group player < 0.6}) exitWith {};
-
-			private _name = if (!isNull _source) then
-			{
-				if (isPlayer _source) then
-				{
-					name _source;
-				}
-				else
-				{
-					format [MSG_NAME_TEMPLATE_AI, name _source];
-				};
-			};
-
-			switch (_reason) do
-			{
-				case DEATH_REASON_NONE:
-				{
-					systemChat format [MSG_DIED,name _unit];
-				};
-				case DEATH_REASON_SECURED:
-				{
-					if (isNull _source) then
-					{
-						systemChat format [MSG_SECURED,name _unit];
-					}
-					else
-					{
-						systemChat format [MSG_SECURED_BY,name _unit,_name];
-					};
-				};
-				case DEATH_REASON_FORCED_RESPAWN:
-				{
-					systemChat format [MSG_FORCED_RESPAWN,name _unit];
-				};
-				case DEATH_REASON_BLEEDOUT:
-				{
-					systemChat format [MSG_BLEDOUT,name _unit];
-				};
-				case DEATH_REASON_EXECUTED:
-				{
-					if (isNull _source) then
-					{
-						systemChat format [MSG_EXECUTED,name _unit];
-					}
-					else
-					{
-						if (side group _source getFriend side group _unit >= 0.6) then
-						{
-							systemChat format [MSG_EXECUTED_BY_FF,name _unit,_name];
-						}
-						else
-						{
-							systemChat format [MSG_EXECUTED_BY,name _unit,_name];
-						};
-					};
-				};
-				case DEATH_REASON_SUICIDED:
-				{
-					systemChat format [MSG_SUICIDED,name _unit];
-				};
-				case DEATH_REASON_DROWNED:
-				{
-					systemChat format [MSG_DROWNED,name _unit];
-				};
-				default
-				{
-					if (isNull _source) then
-					{
-						systemChat format [MSG_KILLED,name _unit];
-					}
-					else
-					{
-						if (side group _source getFriend side group _unit >= 0.6) then
-						{
-							systemChat format [MSG_KILLED_BY_FF,name _unit,_name];
-						}
-						else
-						{
-							systemChat format [MSG_KILLED_BY,name _unit,_name];
-						};
-					};
-				};
-			};
-		};
-
+		_unit setVariable ["ACE_isUnconscious",false];
 		//init and show dead icon for everyone but player
 		if (!local _unit) then
 		{
@@ -277,6 +190,7 @@ switch (_state) do
 			player setVariable ["tf_globalVolume", 1];
 			// enable talking (radio)
 			player setVariable ["tf_unable_to_use_radio", false];
+			player setVariable ["ACE_isUnconscious",false];
 			//remove user action
 			private _actionID = _unit getVariable [VAR_ACTION_ID_RESPAWN,-1];
 			if (_actionID != -1) then {[_unit,_actionID] call bis_fnc_holdActionRemove;};
@@ -295,18 +209,8 @@ switch (_state) do
 		//flag unit as being NOT incapacitated
 		_unit setVariable ["pams_revive_incapacitated", false];
 		_unit setVariable ["pams_revive_unstable", false];
+		_unit setVariable ["ACE_isUnconscious",false];
 		//display "revived" message in kill-feed; only if revived unit is friendly
-		if (pams_revive_killfeedShow && {side group player getFriend side group _unit >= 0.6}) then
-		{
-			if (isNull _source) then
-			{
-				systemChat format [MSG_REVIVED,name _unit];
-			}
-			else
-			{
-				systemChat format [MSG_REVIVED_BY,name _unit,name _source];
-			};
-		};
 
 		if (local _unit) then
 		{
@@ -319,6 +223,7 @@ switch (_state) do
 			player setVariable ["tf_globalVolume", 1];
 			// enable talking (radio)
 			player setVariable ["tf_unable_to_use_radio", false];
+			player setVariable ["ACE_isUnconscious",false];
 			//not bleeding
 			pams_revive_bleeding = false;
 
@@ -464,6 +369,7 @@ switch (_state) do
 			player setVariable ["tf_globalVolume", 1];
 			// enable talking (radio)
 			player setVariable ["tf_unable_to_use_radio", false];
+			player setVariable ["ACE_isUnconscious",false];
 			//reset wound data
 			[] call pams_fnc_reviveDamageReset;
 		}

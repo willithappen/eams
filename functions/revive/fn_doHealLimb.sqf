@@ -28,8 +28,14 @@ params ['_injured','_limb',['_healer',objNull]];
 
 _sd = false;
 //systemChat str(_limb);
-_healer playAction 'medicStart';
-_duration = pams_revive_duration/7;
+_anim = "";
+if (_injured isEqualTo _healer) then {
+ _anim = ["AinvPknlMstpSlayWrflDnon_medic","AinvPpneMstpSlayWrflDnon_medic"] select (stance _healer == "PRONE");
+} else {
+ _anim = ["AinvPknlMstpSlayWrflDnon_medicOther","AinvPpneMstpSlayWrflDnon_medicOther"] select (stance _healer == "PRONE");
+};
+_healer playmove _anim;
+_duration = pams_revive_duration/8;
 if (CAN_USE_MEDIKIT(_healer)) then {
 	_duration = pams_revive_durationMedic/3;
 };
@@ -50,18 +56,18 @@ _currentDamage = _injured getHitPointDamage _limb;
 			};
 		};
 	};
-	if ((_currentDamage > 0.349) && (_currentDamage <= 0.49)) then {
+	if ((_currentDamage > 0.349) && (_currentDamage <= 0.5)) then {
 		damageToHeal = _currentDamage - 0.3;
 		//systemChat format ["%1 Damage and Current %2 N2",damageToHeal,_currentDamage];
 		if (CAN_USE_EAMSITEM(_healer,'EAMS_BasicBandage')) then {EAMS_BANDAGESPLIT_BASIC(_healer)} else {
 			if (CAN_USE_EAMSITEM(_injured,'EAMS_BasicBandage')) then {EAMS_BANDAGESPLIT_BASIC(_injured)};
 		};
 	};
-	if (_currentDamage > 0.49) then {
+	if (_currentDamage > 0.5) then {
 		damageToHeal = _currentDamage - 0.5;
 		//systemChat format ["%1 Damage and Current %2 N2",damageToHeal,_currentDamage];
-		if (CAN_USE_EAMSITEM(_healer,'EAMS_BasicBandage')) then {EAMS_BANDAGESPLIT_BASIC(_healer)} else {
-			if (CAN_USE_EAMSITEM(_injured,'EAMS_BasicBandage')) then {EAMS_BANDAGESPLIT_BASIC(_injured)};
+		if (CAN_USE_EAMSITEM(_healer,'EAMS_BasicBandage')) then {_healer removeItem 'EAMS_BasicBandage'} else {
+			if (CAN_USE_EAMSITEM(_injured,'EAMS_BasicBandage')) then {_injured removeItem 'EAMS_BasicBandage'};
 		};
 	};
 //systemChat format ["%1 Damage and Current %2 N3",damageToHeal,_currentDamage];
@@ -69,7 +75,7 @@ _hitPointDamage = {_this select 0 setHitPointDamage [_this select 1,_this select
 [_duration,[_injured,_limb,_healer,damageToHeal],
 {
 	params ["_args"];
-	(_args select 2) playAction 'MedicStop';
+	//(_args select 2) playAction 'MedicStop';
 
 	[_args, {
 		(_this select 0) setHitPointDamage [_this select 1, _this select 3];
@@ -77,7 +83,7 @@ _hitPointDamage = {_this select 0 setHitPointDamage [_this select 1,_this select
 },
 {
 	params ["_args"];
-	(_args select 2) playAction 'medicStop';
+	//(_args select 2) playAction 'medicStop';
 }, 'Bandaging...'] call ace_common_fnc_progressBar;
 
 if (_sd) exitWith {true};

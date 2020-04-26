@@ -120,7 +120,7 @@ class HitFace {\
 	};\
 	class EAMS_Incapacitated {\
 		armor = 1000;\
-		depends = "(hitLegs * 0.30) + (hitArms * 0.35) + (hitBody * 0.45) + (HitHead * 0.55) + (Total * 0.35)";\
+		depends = "(hitLegs * 0.15) + (hitArms * 0.20) + (hitBody * 0.45) + (HitHead * 0.55) + (Total * 0.35)";\
 		explosionShielding = 1;\
 		material = -1;\
 		minimalHit = 0;\

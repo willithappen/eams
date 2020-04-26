@@ -23,7 +23,7 @@
 	Example: [_target,'hitArms',true] call pams_fnc_canHealLimb; -- Returns a Number
 	Returns:
 	none
-&& ((CAN_USE_EAMSITEM2(_player,_target,'EAMS_BasicBandage') || CAN_USE_EAMSITEM2(_player,_target,'EAMS_BasicBandage_Half'))))
+&& ((CAN_USE_EAMSITEM2(_healer,_target,'EAMS_BasicBandage') || CAN_USE_EAMSITEM2(_healer,_target,'EAMS_BasicBandage_Half'))))
 */
 /*
 	Author: willithappen
@@ -49,55 +49,27 @@
 	Example: [_target,'hitArms',true] call pams_fnc_canHealLimb; -- Returns a Number
 	Returns:
 	none
-&& ((CAN_USE_EAMSITEM2(_player,_target,'EAMS_BasicBandage') || CAN_USE_EAMSITEM2(_player,_target,'EAMS_BasicBandage_Half'))))
 */
-/*
-params ['_target','_limb',['_player',objNull]];
-if !(isPlayer _target) exitWith {false};
-_sd = false;
-_eamsYes = false;
-if (_limb isEqualTo 'patch') then {
-	_damages = (['HitHead', 'HitBody', 'hitLeftArm', 'hitRightArm', 'hitLeftLeg', 'hitRightLeg'] apply {_target getHitPointDamage _x});
-	if ((selectMax _damages < 0.05) && (selectMax _damages > 0)) then {
-		if !(isNull _player) then {
-			if (CAN_USE_EAMSITEM2(_player,_target,'EAMS_Epinephrine') then {_sd = true;} else {_sd = false;};
-		} else {
-			if (CAN_USE_EAMSITEM(_target,'EAMS_Epinephrine') then {_sd = true;} else {_sd = false;};
-		};
-		_eamsYes = true;
-	};
-} else {
-	_damage = _target getHitPointDamage _limb;
-	if (_damage >= 0.05) then {_eamsYes = true};
-	if !(isNull _player) then {
-		if ((CAN_USE_EAMSITEM2(_player,_target,'EAMS_BasicBandage')) || (CAN_USE_EAMSITEM2(_player,_target,'EAMS_BasicBandage_Half'))) then {_sd = true} else {_sd = false};
-	} else {
-		if ((CAN_USE_EAMSITEM(_player,'EAMS_BasicBandage')) || (CAN_USE_EAMSITEM(_player,'EAMS_BasicBandage_Half'))) then {_sd = true} else {_sd = false};
-	};
-};
-if (_sd && _eamsYes) exitWith {true};
-false
-*/
-params ['_target','_limb',['_player',objNull]];
+params ['_target','_limb',['_healer',objNull]];
 if !(isPlayer _target) exitWith {false};
 _sd = false;
 _eamsYes = false;
 if (_limb isEqualTo 'patch') then {
 	_damages = (['HitHead', 'HitBody', 'hitLeftArm', 'hitRightArm', 'hitLeftLeg', 'hitRightLeg'] apply {_target getHitPointDamage _x});
 	if ((selectMax _damages <= 0.05) && (selectMax _damages > 0)) then {
-		if !(_target isEqualTo _player) then {
-			if (CAN_USE_EAMSITEM2(_player,_target,'EAMS_Epinephrine')) then {_eamsYes = true; _sd = true;};
+		if (isNull _healer) then {
+			if (CAN_USE_EAMSITEM2(_healer,_target,'EAMS_Epinephrine')) then {_eamsYes = true; _sd = true;};
 		} else {
-			if (CAN_USE_EAMSITEM(_player,'EAMS_Epinephrine')) then {_eamsYes = true; _sd = true;};
+			if (CAN_USE_EAMSITEM(_healer,'EAMS_Epinephrine')) then {_eamsYes = true; _sd = true;};
 		};
 	};
 } else {
 	_damage = _target getHitPointDamage _limb;
 	if (_damage > 0.05) then {_sd = true};
-	if !(_target isEqualTo _player) then {
-		if ((CAN_USE_EAMSITEM2(_player,_target,'EAMS_BasicBandage')) || (CAN_USE_EAMSITEM2(_player,_target,'EAMS_BasicBandage_Half'))) then {_eamsYes = true} else {_eamsYes = false};
+	if (isNull _healer) then {
+		if ((CAN_USE_EAMSITEM2(_healer,_target,'EAMS_BasicBandage')) || (CAN_USE_EAMSITEM2(_healer,_target,'EAMS_BasicBandage_Half'))) then {_eamsYes = true} else {_eamsYes = false};
 	} else {
-		if ((CAN_USE_EAMSITEM(_player,'EAMS_BasicBandage')) || (CAN_USE_EAMSITEM(_player,'EAMS_BasicBandage_Half'))) then {_eamsYes = true} else {_eamsYes = false};
+		if ((CAN_USE_EAMSITEM(_healer,'EAMS_BasicBandage')) || (CAN_USE_EAMSITEM(_healer,'EAMS_BasicBandage_Half'))) then {_eamsYes = true} else {_eamsYes = false};
 	};
 };
 if (_sd && _eamsYes) exitWith {true};

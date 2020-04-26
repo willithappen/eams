@@ -9,5 +9,5 @@ private _dmgratio = 0;
 if ((_damage < 0.05) && (_damage > 0)) then {private _dmgratio = 0; _actionData set [2, format ["eams\data\ui\x_%1.paa",_dmgratio]];};
 if ((_damage < 0.349) && (_damage > 0.05)) then {private _dmgratio = 1; _actionData set [2, format ["eams\data\ui\x_%1.paa",_dmgratio]];};
 if ((_damage < 0.49) && (_damage >= 0.349)) then {private _dmgratio = 2; _actionData set [2, format ["eams\data\ui\x_%1.paa",_dmgratio]];};
-if ((_damage < 0.75) && (_damage >= 0.49)) then {private _dmgratio = 3; _actionData set [2, format ["eams\data\ui\x_%1.paa",_dmgratio]];};
+if ((_damage < 0.75) && (_damage >= 0.5)) then {private _dmgratio = 3; _actionData set [2, format ["eams\data\ui\x_%1.paa",_dmgratio]];};
 if (_damage >= 0.75) then {private _id = 4; _actionData set [2, format ["eams\data\ui\x_%1.paa",_dmgratio]];};

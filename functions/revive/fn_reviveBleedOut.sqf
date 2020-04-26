@@ -81,7 +81,7 @@ _unit spawn
 			_unit setVariable [VAR_DAMAGE_BLEED, _bleed];
 		};
 		//ToDo: Make array of checks for weird cases where animation can wig out
-		if (animationState player in ["amovpknlmstpsnonwnondnon","unconsciousoutprone","amovpercmstpsraswrfldnon","amovppnemstpsraswrfldnon","amovpknlmstpsraswrfldnon","amovpknlmstpsraswlnrdnon_amovpknlmstpsraswrfldnon_end","ainvpknlmstpsnonwrfldnon_medicend","ainvpknlmstpsnonwrfldr_medic2"]) then {
+		if (animationState player in ["unconscious","amovpknlmstpsnonwnondnon","unconsciousoutprone","amovpercmstpsraswrfldnon","amovppnemstpsraswrfldnon","amovpknlmstpsraswrfldnon","amovpknlmstpsraswlnrdnon_amovpknlmstpsraswrfldnon_end","ainvpknlmstpsnonwrfldnon_medicend","ainvpknlmstpsnonwrfldr_medic2"]) then {
 	     player switchAction ""; player switchMove "unconsciousrevivedefault";
 	    };
 		//wait for unit to bleeding out be revived

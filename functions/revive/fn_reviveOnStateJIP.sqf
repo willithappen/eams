@@ -55,6 +55,7 @@ switch (_state) do
 		//flag player as being incapacitated
 		_unit setVariable ["pams_revive_incapacitated", true];
 		_unit setVariable ["pams_revive_unstable", true];
+		_unit setVariable ["ACE_isUnconscious",true];
 
 		//init icon
 		//[ICON_STATE_ADD, _unitVar] call pams_fnc_reviveIconControl;
@@ -82,6 +83,7 @@ switch (_state) do
 		//reset "being revived" and "forcing respawn" flags
 		SET_BEING_REVIVED_LOCAL(_unit, false);
 		SET_FORCING_RESPAWN_LOCAL(_unit, false);
+		_unit setVariable ["ACE_isUnconscious",false];
 
 		//init icon
 		//[ICON_STATE_ADD, _unitVar] call pams_fnc_reviveIconControl;
@@ -101,6 +103,7 @@ switch (_state) do
 		//reset "being revived" and "forcing respawn" flags
 		SET_BEING_REVIVED_LOCAL(_unit, false);
 		SET_FORCING_RESPAWN_LOCAL(_unit, false);
+		_unit setVariable ["ACE_isUnconscious",false];
 	};
 	case STATE_STABILIZED:
 	{

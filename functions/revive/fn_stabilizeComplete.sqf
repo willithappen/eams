@@ -20,7 +20,7 @@ SET_STATE(_target,STATE_STABILIZED);
 //remove Morphine from target or player inventory
 if (CAN_USE_EAMSITEM(_healer,'EAMS_Epinephrine')) then {
 	_healer removeItem 'EAMS_Epinephrine'} else {
-	if (CAN_USE_EAMSITEM(_injured,'EAMS_BasicBandage')) then {
+	if (CAN_USE_EAMSITEM(_injured,'EAMS_Epinephrine')) then {
 		_healer removeItem 'EAMS_Epinephrine'
 	};
 };

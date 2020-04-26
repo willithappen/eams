@@ -9,8 +9,9 @@ class EAMS_BasicBandage: EAMS_ItemCore {\
 	descriptionShort = "Use to treat wounds.<br/>Usable on: Self, Others";\
 	model = "\A3\Structures_F_EPA\Items\Medical\Bandage_F.p3d";\
 	picture = "\eams\data\icons\Bandage_Basic_ICO.paa";\
+	mass = 2;\
 	class ItemInfo: CBA_MiscItem_ItemInfo {\
-		mass = 3;\
+		mass = 2;\
 	};\
 };\
 class EAMS_BasicBandage_Half: EAMS_ItemCore {\
@@ -20,8 +21,9 @@ class EAMS_BasicBandage_Half: EAMS_ItemCore {\
 	descriptionShort = "Use to treat wounds.<br/>Usable on: Self, Others";\
 	model = "\A3\Structures_F_EPA\Items\Medical\Bandage_F";\
 	picture = "\eams\data\icons\Bandage_Basic_ICO";\
+	mass = 1;\
 	class ItemInfo: CBA_MiscItem_ItemInfo {\
-		mass = 1.5;\
+		mass = 1;\
 	};\
 };\
 class EAMS_Epinephrine: EAMS_ItemCore {\
@@ -31,8 +33,9 @@ class EAMS_Epinephrine: EAMS_ItemCore {\
 	descriptionShort = "Use to treat wounds.<br/>Usable on: Self, Others";\
 	model = "a3\Props_F_Orange\Humanitarian\Garbage\MedicalGarbage_01_Injector_F";\
 	picture = "\eams\data\icons\Injector_Epinephrine_ICO";\
+	mass = 0.5;\
 	class ItemInfo: CBA_MiscItem_ItemInfo {\
-		mass = 1;\
+		mass = 0.5;\
 	};\
 };\
 class EAMS_MedicBag: EAMS_ItemCore {\
