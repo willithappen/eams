@@ -1,7 +1,7 @@
 #include "defines.inc"
 //[["hitface","hitneck","hithead","hitpelvis","hitabdomen","hitdiaphragm","hitchest","hitbody","hitarms","hithands","hitlegs","incapacitated","hitleftarm","hitrightarm","hitleftleg","hitrightleg","eams_incapacitated"],
 params ["_hitPoint","_damage","_projectile"];
-_validHitPoints = ["hithead","hitchest","hitleftarm","hitrightarm","hitleftleg","hitrightleg"];
+_validHitPoints = ["hithead","hitbody","hitleftarm","hitrightarm","hitleftleg","hitrightleg"];
 _hitPointID = _validHitPoints find _hitPoint;
 _woundState = player getVariable [format ["EAMS-%1Wounds","Basic"],[0,0,0,0,0,0]];
 _damageCurrent = _woundState select _hitPointID;

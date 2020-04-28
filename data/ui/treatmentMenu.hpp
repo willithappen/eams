@@ -110,7 +110,7 @@ class EAMS_GUI_TreatmentMenuBase {
 			y = 0.44 * safezoneH + safezoneY;
 			w = 0.05 * safezoneW;
 			h = 0.04 * safezoneH;
-			onButtonClick = "['hitchest'] call eams_fnc_ui_treatmentMenu_state;";
+			onButtonClick = "['hitbody'] call eams_fnc_ui_treatmentMenu_state;";
 			default = 1; // Control selected by default (only one within a display can be used)
 		};
 		class EAMS_GUI_TM_StateBox: EAMS_RscLISTBOX
@@ -132,7 +132,7 @@ class EAMS_GUI_TreatmentMenuBase {
 			y = 0.54 * safezoneH + safezoneY;
 			w = 0.0625 * safezoneW;
 			h = 0.04 * safezoneH;
-			onButtonClick = "[uiNameSpace getVariable ['EAMS-CurrentPatient',player],uiNameSpace getVariable ['EAMS-SelectedBodyPart','hitChest']] call eams_fnc_doHealLimb;";
+			onButtonClick = "[uiNameSpace getVariable ['EAMS-CurrentPatient',player],uiNameSpace getVariable ['EAMS-SelectedBodyPart','hitBody']] call eams_fnc_doHealLimb;";
 			default = 0; // Control selected by default (only one within a display can be used)
 		};
 		class EAMS_GUI_TM_SelectExtraAction: EAMS_RscButton

@@ -34,11 +34,11 @@ if (_injured isEqualTo _healer) then {
  _anim = ["AinvPknlMstpSlayWrflDnon_medicOther","AinvPpneMstpSlayWrflDnon_medicOther"] select (stance _healer == "PRONE");
 };
 _healer playmove _anim;
-_duration = eams_revive_duration/9;
+_duration = eams_revive_duration/9.75;
 if (CAN_USE_MEDIKIT(_healer)) then {
-	_duration = eams_revive_durationMedic/2;
+	_duration = eams_revive_durationMedic/1.3;
 };
-_validHitPoints = ["hithead","hitchest","hitleftarm","hitrightarm","hitleftleg","hitrightleg"];
+_validHitPoints = ["hithead","hitbody","hitleftarm","hitrightarm","hitleftleg","hitrightleg"];
 _woundsArray = missionNameSpace getVariable ["EAMS-BasicWounds-Target",[0,0,0,0,0,0]];
 //[head,chest,larm,rarm,lleg,rleg]
 _hitPointID = _validHitPoints find _limb;
