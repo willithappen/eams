@@ -24,8 +24,8 @@
 	Returns:
 	none
 */
-params ['_injured','_limb',['_healer',objNull]];
-
+params ['_injured','_limb',['_healer',player]];
+systemChat format ["%1,%2,%3",_injured,_limb,_healer];
 _sd = false;
 //systemChat str(_limb);
 _anim = "";
