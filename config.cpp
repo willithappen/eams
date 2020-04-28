@@ -12,6 +12,9 @@ class CfgPatches {
 #include "functions\hitpoint_macro.hpp"
 #include "functions\eams_medical_items.hpp"
 
+#include "data\ui\parentClasses.hpp"
+#include "data\ui\treatmentMenu.hpp"
+
 class cfgWeapons {
 ADD_EAMS_MEDICAL_ITEMS();
 };
@@ -295,13 +298,20 @@ class cfgFunctions {
 	class eams {
 		class Revive {
 			file = "EAMS\functions\revive";
-				class disableRevive {};
-				class reenableRevive {};
-				class reviveInit {};
-				class reviveSettings
-				{
+				class keyBinds {
 					preInit=1;
 				};
+				class reviveSettings {
+					postInit=1;
+				};
+				class UI_TreatmentMenu {};
+				class UI_treatmentMenu_State {};
+				class handleWounding {};
+				class reviveInit {
+					postInit=1;
+				};
+				class disableRevive {};
+				class reenableRevive {};
 				class useBandage {};
 				class canHealLimb {};
 				class doHealLimb {};
