@@ -132,7 +132,7 @@ class EAMS_GUI_TreatmentMenuBase {
 			y = 0.54 * safezoneH + safezoneY;
 			w = 0.0625 * safezoneW;
 			h = 0.04 * safezoneH;
-			onButtonClick = "[uiNameSpace getVariable ['EAMS-CurrentPatient',player],uiNameSpace getVariable ['EAMS-SelectedBodyPart','hitChest']] call eams_fnc_doHealLimb; closeDialog 1;";
+			onButtonClick = "[uiNameSpace getVariable ['EAMS-CurrentPatient',player],uiNameSpace getVariable ['EAMS-SelectedBodyPart','hitChest']] call eams_fnc_doHealLimb;";
 			default = 0; // Control selected by default (only one within a display can be used)
 		};
 		class EAMS_GUI_TM_SelectExtraAction: EAMS_RscButton

@@ -25,7 +25,6 @@
 	none
 */
 params ['_injured','_limb',['_healer',player]];
-systemChat format ["%1,%2,%3",_injured,_limb,_healer];
 _sd = false;
 //systemChat str(_limb);
 _anim = "";
@@ -39,28 +38,42 @@ _duration = eams_revive_duration/9;
 if (CAN_USE_MEDIKIT(_healer)) then {
 	_duration = eams_revive_durationMedic/2;
 };
-_currentDamage = _injured getHitPointDamage _limb;
-	if (_currentDamage > 0) then {
-		damageToHeal = 0;
+_validHitPoints = ["hithead","hitchest","hitleftarm","hitrightarm","hitleftleg","hitrightleg"];
+_woundsArray = missionNameSpace getVariable ["EAMS-BasicWounds-Target",[0,0,0,0,0,0]];
+//[head,chest,larm,rarm,lleg,rleg]
+_hitPointID = _validHitPoints find _limb;
+_woundValue = _woundsArray select _hitPointId;
+_damageToHeal = 0;
+	if ((_woundValue > 0) && !(_woundValue < 1)) then {
+		_damageToHeal = _woundValue - 1;
 		//systemChat format ["%1 Damage and Current %2 N2",damageToHeal,_currentDamage];
 		if (CAN_USE_EAMSITEM(_healer,'EAMS_BasicBandage')) then {EAMS_BANDAGESPLIT_BASIC(_healer)} else {
 			if (CAN_USE_EAMSITEM(_injured,'EAMS_BasicBandage')) then {EAMS_BANDAGESPLIT_BASIC(_injured)};
 		};
+	} else {
+		if ((_woundValue > 0) && (_woundValue < 1)) then {
+			_damageToHeal = 0;
+			if (CAN_USE_EAMSITEM(_healer,'EAMS_BasicBandage')) then {EAMS_BANDAGESPLIT_BASIC(_healer)} else {
+				if (CAN_USE_EAMSITEM(_injured,'EAMS_BasicBandage')) then {EAMS_BANDAGESPLIT_BASIC(_injured)};
+			if (CAN_USE_EAMSITEM(_healer,'EAMS_BasicBandage')) then {_healer removeItem 'EAMS_BasicBandage'} else {
+				if (CAN_USE_EAMSITEM(_injured,'EAMS_BasicBandage')) then {_injured removeItem 'EAMS_BasicBandage'};
+			};
+		};
 	};
-//systemChat format ["%1 Damage and Current %2 N3",damageToHeal,_currentDamage];
-[_duration,[_injured,_limb,_healer,damageToHeal],
-{
-	params ["_args"];
-	//(_args select 2) playAction 'MedicStop';
+};
 
-	[_args, {
-		(_this select 0) setHitPointDamage [_this select 1, _this select 3];
-	}] remoteExecCall ["BIS_FNC_CALL",_args select 0];
-},
-{
+_woundsArray set [_hitPointID,_damageToHeal];
+missionNameSpace setVariable ["EAMS-BasicWounds-Target",_woundsArray];
+systemChat format ["%1,%2,%3 will take %4 to set %5 -- set %6 to %7",name _injured,_limb,name _healer,_duration, _woundsArray, _woundValue, _damageToHeal];
+[_duration,[_injured,_healer,_woundsArray],{
 	params ["_args"];
-	//(_args select 2) playAction 'medicStop';
-}, 'Bandaging...'] call ace_common_fnc_progressBar;
+	systemChat format ["%1 equal to %2",_args select 0,_args select 1];
+	if !((_args select 0) isEqualTo (_args select 1)) then {
+		RETURN_DATA(_args select 1,_args select 0,"EAMS-BasicWounds-Target")
+	} else {
+		player setVariable [format ["EAMS-%1Wounds","Basic"],_args select 2];
+	};
+	},{},'Bandaging...'] call ace_common_fnc_progressBar;
 
 if (_sd) exitWith {true};
 false

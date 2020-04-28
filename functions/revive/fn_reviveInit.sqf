@@ -13,14 +13,6 @@ if !(eams_ReviveMode) exitWith {diag_log "EAMS RPT: Medical Not Enabled"};
 diag_log format ["EAMS RPT: Medical Enabled at %1",diag_tickTime];
 //Values for everything
 
-if (isServer) then {
-	waitUntil {diag_tickTime > 5};
-	if (isNil "eams_arr_players") then {
-		//Players on mission start
-		eams_arr_players = [] call CBA_fnc_players;
-	};
-};
-
 eams_revive_duration = 120; // Revive Duration normal
 eams_revive_medicSpeedMultiplier = 12; // 12x Normal Value
 eams_revive_durationMedic = eams_revive_duration/eams_revive_medicSpeedMultiplier;

@@ -131,6 +131,7 @@
 
 --------------------------------------------------------------------------------------------------*/
 #define REQUEST_DATA(requester,requestee,variable) [requester,requestee,variable] remoteExecCall ['eams_fnc_requestData',requestee]
+#define RETURN_DATA(transmitter,reciever,variable) [transmitter,reciever,variable] remoteExecCall ['eams_fnc_returnData',transmitter]
 /*--------------------------------------------------------------------------------------------------
 
 	PLAYER STATES

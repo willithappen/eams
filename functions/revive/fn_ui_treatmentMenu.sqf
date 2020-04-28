@@ -3,7 +3,7 @@ disableSerialization;
 _display = findDisplay 3267;
 if !(isNull _display) exitWith {};
 params ["_target","_player"];
-systemChat format ["%1-%2",_target,_player];
+//systemChat format ["%1-%2",_target,_player];
 if (isNull _target) exitWith {
 	UINameSpace setVariable ["EAMS-CurrentPatient",_player];
 	createDialog "EAMS_GUI_TreatmentMenuBase";

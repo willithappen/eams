@@ -342,6 +342,8 @@ class cfgFunctions {
 				class ReviveOnBeingStabilized {};
 				class requestData {};
 				class transmitData {};
+				class returnData {};
+				class recieveData {};
 			};
 		};
 	};
