@@ -197,7 +197,7 @@ switch (_state) do
 
 			//reset blood level and stored bleed damage
 			_unit setVariable [VAR_DAMAGE_BLEED, 0];
-			_unit setVariable [VAR_DAMAGE, 0];
+			//_unit setVariable [VAR_DAMAGE, 0];
 
 			//reset "being revived" and "forcing respawn" flags
 			if (IS_BEING_REVIVED(_unit)) then {SET_BEING_REVIVED(_unit, false);};
@@ -297,7 +297,7 @@ switch (_state) do
 
 			//reset blood level and stored bleed damage
 			_unit setVariable [VAR_DAMAGE_BLEED, 0];
-			_unit setVariable [VAR_DAMAGE, 0];
+			//_unit setVariable [VAR_DAMAGE, 0];
 
 			//reset "being revived" and "forcing respawn" flags
 			if (IS_BEING_REVIVED(_unit)) then {SET_BEING_REVIVED(_unit, false);};
