@@ -59,7 +59,7 @@
 #define VAR_BEING_STABILIZED			'EAMS_Rev_Var_being_stabilized'
 #define VAR_FORCING_RESPAWN				'EAMS_Rev_Var_forcing_respawn'
 
-#define VAR_DAMAGE						'EAMS_Rev_Var_damage'
+//#define VAR_DAMAGE						'EAMS_Rev_Var_damage'
 #define VAR_DAMAGE_BLEED				'EAMS_Rev_Var_bleed'
 
 #define VAR_CAMERA_VIEW					'EAMS_Rev_Var_camera'
@@ -68,7 +68,7 @@
 #define VAR_INCAPACITATED_BACKUPPOS		'EAMS_Rev_Var_incap_backuppos'
 #define VAR_INCAPACITATED_DIR			'EAMS_Rev_Var_incap_dir'
 #define VAR_INCAPACITATED_BODY			'EAMS_Rev_Var_incap_corpse'
-//In Order - [[head,wounds],[leftArm,wounds],[chest,wounds],[rightArm,wounds],[leftLeg,wounds],[rightLeg,wounds]]
+//In Order - [[head,wounds],[chest,wounds],[leftArm,wounds],[rightArm,wounds],[leftLeg,wounds],[rightLeg,wounds]]
 #define EAMS_LIMBS						[[0,0],[0,0],[0,0],[0,0],[0,0],[0,0]]
 #define EAMS_BLOODRATIO					[4750]
 // [MIN,AVG,MAX]
@@ -83,7 +83,7 @@
 	GENERAL 'QUALITY OF LIFE' MACROS
 
 --------------------------------------------------------------------------------------------------*/
-#define GET_UNIT_VAR(unit)				([unit] call bis_fnc_objectVar)
+#define GET_UNIT_VAR(unit)				([unit,'EAMS_U-'] call bis_fnc_objectVar)
 #define GET_UNIT(unitVar)				(missionNamespace getVariable [unitVar,objNull])
 
 #define IN_VEHICLE(unit)				(vehicle unit != unit)
@@ -131,7 +131,6 @@
 
 --------------------------------------------------------------------------------------------------*/
 #define REQUEST_DATA(requester,requestee,variable) [requester,requestee,variable] remoteExecCall ['eams_fnc_requestData',requestee]
-
 /*--------------------------------------------------------------------------------------------------
 
 	PLAYER STATES
@@ -164,3 +163,5 @@
 #define STABILIZE_FAILED(unit,target)								([unit,target] call eams_fnc_stabilizeFailed)
 #define REVIVE_COMPLETE(unit,target)								([unit,target] call eams_fnc_ReviveComplete)
 #define REVIVE_FAILED(unit,target)									([unit,target] call eams_fnc_ReviveFailed)
+#define EAMS_FATALDAMAGE											7
+#define EAMS_GET_WOUNDSSELF(type)									player getVariable [format ["EAMS-%1Wounds",str(type)],[0,0,0,0,0,0]]
