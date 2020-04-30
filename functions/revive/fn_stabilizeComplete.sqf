@@ -13,7 +13,6 @@
 	none
 */
 params ['_player','_target'];
-SET_BEING_STABILIZED(_target,false);
 //stop revive animation
 _player playAction 'medicStop';
 SET_STATE(_target,STATE_STABILIZED);

@@ -13,7 +13,6 @@
 	none
 */
 params ['_player','_target'];
-SET_BEING_REVIVED(_target,false);
 SET_STATE(_target,STATE_REVIVED);
 //remove Morphine from target or player inventory
 if (CAN_USE_EAMSITEM(_healer,'EAMS_Epinephrine')) then {

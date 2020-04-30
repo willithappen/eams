@@ -13,5 +13,4 @@
 	none
 */
 params ['_player','_target'];
-SET_BEING_REVIVED(_target,false);
 _player playAction 'medicStop';

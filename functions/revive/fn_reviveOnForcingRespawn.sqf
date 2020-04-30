@@ -26,18 +26,12 @@ if (isNull _unit) exitWith {false};
 private _unitVar = GET_UNIT_VAR(_unit);
 
 //store previous flag
-private _statePrev = IS_FORCING_RESPAWN(_unit);
-
-//stop if state didn"t change
-if (_statePrev isEqualTo _state) exitWith {};
 
 //["[ ] %1 -> %2",_statePrev,_state] call bis_fnc_logFormat;
 
 //set the actual state
 _unit setVariable [VAR_FORCING_RESPAWN, _state];
 
-//being revived icon has priotity over the forcing respawn icon
-if (IS_BEING_REVIVED(_unit)) exitWith {};
 /*
 //show icon indicating player is forcing respawn
 if (_state && {!local _unit}) then

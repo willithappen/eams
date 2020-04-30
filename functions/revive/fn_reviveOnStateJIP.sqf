@@ -81,8 +81,6 @@ switch (_state) do
 		_unit setVariable ["eams_revive_incapacitated", false];
 		_unit setVariable ["eams_revive_unstable", false];
 		//reset "being revived" and "forcing respawn" flags
-		SET_BEING_REVIVED_LOCAL(_unit, false);
-		SET_FORCING_RESPAWN_LOCAL(_unit, false);
 		_unit setVariable ["ACE_isUnconscious",false];
 
 		//init icon
@@ -100,9 +98,6 @@ switch (_state) do
 		//flag player as being NOT incapacitated
 		_unit setVariable ["eams_revive_incapacitated", false];
 		_unit setVariable ["eams_revive_unstable", false];
-		//reset "being revived" and "forcing respawn" flags
-		SET_BEING_REVIVED_LOCAL(_unit, false);
-		SET_FORCING_RESPAWN_LOCAL(_unit, false);
 		_unit setVariable ["ACE_isUnconscious",false];
 	};
 	case STATE_STABILIZED:
@@ -113,7 +108,6 @@ switch (_state) do
 		_unit setVariable ["eams_revive_unstable", false];
 
 		//reset "being revived" and "forcing respawn" flags
-		SET_BEING_STABILIZED_LOCAL(_unit, false);
 	};
 	default
 	{

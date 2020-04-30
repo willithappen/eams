@@ -27,16 +27,10 @@ if (isNull _unit) exitWith {false};
 
 private _unitVar = GET_UNIT_VAR(_unit);
 
-//store previous flag
-private _statePrev = IS_BEING_STABILIZED(_unit);
-
 //stop if state didn"t change
 if (_statePrev isEqualTo _state) exitWith {};
 
 //["[ ] %1 -> %2",_statePrev,_state] call DEBUG_LOG;
-
-//set the actual state
-_unit setVariable [VAR_BEING_STABILIZED, _state];
 
 //show icon indicating player is being revived by someone
 /*

@@ -47,10 +47,20 @@ _damageToHeal = 0;
 	if ((_woundValue > 0) && !(_woundValue < 1)) then {
 		_damageToHeal = _woundValue - 1;
 		//systemChat format ["%1 Damage and Current %2 N2",damageToHeal,_currentDamage];
-		if (CAN_USE_EAMSITEM(_healer,'EAMS_BasicBandage')) then {_healer removeItem 'EAMS_BasicBandage'; EAMS_SET_RETURNITEM(_healer,'EAMS_BasicBandage')} else {
-			if (CAN_USE_EAMSITEM(_injured,'EAMS_BasicBandage')) then {_injured removeItem 'EAMS_BasicBandage'; EAMS_SET_RETURNITEM(_injured,'EAMS_BasicBandage')};
+		if (CAN_USE_EAMSITEM(_healer,'EAMS_BasicBandage')) then {_healer removeItem 'EAMS_BasicBandage'; EAMS_SET_RETURNITEM(_healer,'EAMS_BasicBandage',false)} else {
+			if (CAN_USE_EAMSITEM(_injured,'EAMS_BasicBandage')) then {_injured removeItem 'EAMS_BasicBandage'; EAMS_SET_RETURNITEM(_injured,'EAMS_BasicBandage',false)};
 		};
 	} else {
+		if ((_woundValue > 0) && (_woundValue < 1)) then {
+			_damageToHeal = 0;
+			if (CAN_USE_EAMSITEM(_healer,'EAMS_BasicBandage_Half')) then {_healer removeItem 'EAMS_BasicBandage_Half';EAMS_SET_RETURNITEM(_healer,'EAMS_BasicBandage_Half',false)} else {
+				if (CAN_USE_EAMSITEM(_injured,'EAMS_BasicBandage_Half')) then {_injured removeItem 'EAMS_BasicBandage_Half';EAMS_SET_RETURNITEM(_injured,'EAMS_BasicBandage_Half',false)};
+			if (CAN_USE_EAMSITEM(_healer,'EAMS_BasicBandage')) then {EAMS_BANDAGESPLIT_BASIC(_healer);EAMS_SET_RETURNITEM2(_healer,'EAMS_BasicBandage',true)} else {
+				if (CAN_USE_EAMSITEM(_injured,'EAMS_BasicBandage')) then {EAMS_BANDAGESPLIT_BASIC(_injured); EAMS_SET_RETURNITEM2(_injured,'EAMS_BasicBandage',true)};
+			};
+		};
+	};
+	/*
 		if ((_woundValue > 0) && (_woundValue < 1)) then {
 			_damageToHeal = 0;
 			if (CAN_USE_EAMSITEM(_healer,'EAMS_BasicBandage')) then {EAMS_BANDAGESPLIT_BASIC(_healer);EAMS_SET_RETURNITEM2(_healer,'EAMS_BasicBandage',true)} else {
@@ -60,9 +70,10 @@ _damageToHeal = 0;
 			};
 		};
 	};
+*/
 };
 
-systemChat format ["%1,%2,%3 will take %4 to set %5 -- set %6 to %7",name _injured,_limb,name _healer,_duration, _woundsArray, _woundValue, _damageToHeal];
+//systemChat format ["%1,%2,%3 will take %4 to set %5 -- set %6 to %7",name _injured,_limb,name _healer,_duration, _woundsArray, _woundValue, _damageToHeal];
 [_duration,[_injured,_healer,_woundsArray,_hitPointID,_damageToHeal],
 {
 	params ["_args"];
@@ -76,7 +87,6 @@ systemChat format ["%1,%2,%3 will take %4 to set %5 -- set %6 to %7",name _injur
 		_args select 2 set [_args select 3,_args select 4];
 		player setVariable [format ["EAMS-%1Wounds","Basic"],_args select 2];
 	};
-[_args select 0,player] spawn eams_fnc_ui_treatmentMenu;
 },{
 	if ((_args select 0) isEqualTo (_args select 1)) then {EAMS_RETURNITEM(_args select 1)} else {EAMS_RETURNITEM(_args select 0)};
 	   },'Bandaging...',{true},["isNotDragging","notOnMap","isNotInside"]] call ace_common_fnc_progressBar;

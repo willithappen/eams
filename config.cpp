@@ -214,7 +214,6 @@ class cfgFunctions {
 				class reviveEhKilled {};
 				class reviveEhRespawn {};
 				class reviveEhHandleDamage {};
-				class reviveDebug {};
 				class reviveDamageReset {};
 				class stabilizeIsValid {};
 				class stabilizeAllowed {};

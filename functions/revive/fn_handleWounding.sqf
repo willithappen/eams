@@ -19,7 +19,7 @@ _shouldKO = {
 	_result
 };
 _KO = (_woundState) call _shouldKO;
-systemChat str(_KO);
+diag_log str(_KO);
 if (_KO) then {
 	SET_STATE(_unit,STATE_INCAPACITATED);
 };

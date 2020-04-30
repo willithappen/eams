@@ -33,21 +33,28 @@ if ((_selection isEqualTo "hitbody") && !(_target isEqualTo player)) then {
 	_switchStateStabilize = _woundsArray findIf {_x > 1.75};
 	_switchStateRevive = _woundsArray findIf {_x > 0};
 	_isStable = IS_STABLE(_target);
-	_isActive = IS_ACTIVE(_target);
-	if (_isActive) then {ctrlEnable [1607,false];ctrlSetText [1607,"AWAKE"];};
-	if (!(_isActive) && !(CAN_USE_EAMSITEM2(player,_target,'EAMS_Epinephrine'))) then {ctrlSetText [1607,"NO EPI"]; 	ctrlEnable [1607,false];};
-	if ((_switchStateStabilize == -1) && !(_isActive) && !(_isStable) && (CAN_USE_EAMSITEM2(player,_target,'EAMS_Epinephrine'))) then {
-		ctrlSetText [1607,"Stabilize"];
-		UINameSpace setVariable ["EAMS-Pulloutofstate",1];
-		ctrlEnable [1607,true];
-	} else {ctrlSetText [1607,"Too Hurt"];ctrlEnable [1607,false];};
-	if (_isStable) then {ctrlSetText [1607,"STABLE"]; ctrlEnable [1607,false]};
-	if ((_switchStateRevive == -1) && (_isStable) && !(_isActive) && (CAN_USE_EAMSITEM2(player,_target,'EAMS_Epinephrine'))) then {
-		ctrlSetText [1607,"Revive"];
-		UINameSpace setVariable ["EAMS-Pulloutofstate",2];
-		ctrlEnable [1607,true];
-	} else {ctrlSetText [1607,"Too Hurt"];ctrlEnable [1607,false]};
-	if ((_isStable) && (_isActive)) then {ctrlSetText [1607,"ALIVE"]; ctrlEnable [1607,false];};
+	_isDisabled = IS_DISABLED(_target);
+	if !(lifeState _target == "INCAPACITATED") then {
+	ctrlEnable [1607,false];ctrlSetText [1607,"ALIVE"];
+	} else {
+		if ((_isDisabled) && !(CAN_USE_EAMSITEM2(player,_target,'EAMS_Epinephrine'))) then {ctrlSetText [1607,"NO EPI"];ctrlEnable [1607,false];
+		} else {
+			if ((_switchStateStabilize == -1) && (_isDisabled) && !(_isStable) && (CAN_USE_EAMSITEM2(player,_target,'EAMS_Epinephrine'))) then {
+				ctrlSetText [1607,"Stabilize"];
+				UINameSpace setVariable ["EAMS-Pulloutofstate",1];
+				ctrlEnable [1607,true];
+			} else {
+				if (_isStable) then {ctrlSetText [1607,"STABLE"]; ctrlEnable [1607,false]};
+			};
+			if ((_switchStateRevive == -1) && (_isStable) && (_isDisabled) && (CAN_USE_EAMSITEM2(player,_target,'EAMS_Epinephrine'))) then {
+				ctrlSetText [1607,"Revive"];
+				UINameSpace setVariable ["EAMS-Pulloutofstate",2];
+				ctrlEnable [1607,true];
+			} else {
+				if !(_switchStateStabilize == -1) then {ctrlSetText [1607,"Too Hurt"];ctrlEnable [1607,false]};
+			};
+		};
+	};
 } else {ctrlEnable [1607,false];};
 _woundFloor = floor _woundValue;
 _woundMinor = _woundValue - _woundFloor;

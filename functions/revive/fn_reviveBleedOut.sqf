@@ -44,7 +44,6 @@ _unit spawn
 	{
 		sleep 0.1;
 
-		waitUntil{!(IS_BEING_REVIVED(_unit)) || !(IS_BEING_STABILIZED(_unit))};
 		if (eams_revive_bleeding) then {
 		//calculate damage & blood
 		//_damage = _unit getVariable [VAR_DAMAGE,0];

@@ -101,15 +101,6 @@ switch (_state) do
 		_unit setVariable ["ACE_isUnconscious",false,true];
 		{inGameUISetEventHandler [_x, ""]} forEach ["PrevAction", "NextAction"];
 		//init and show dead icon for everyone but player
-		if (!local _unit) then
-		{
-			//reset "being revived" and "forcing respawn" flags locally
-			SET_BEING_REVIVED_LOCAL(_unit, false);
-			SET_FORCING_RESPAWN_LOCAL(_unit, false);
-
-		}
-		else
-		{
 			//not bleeding
 			eams_revive_bleeding = false;
 			// enable talking (direct)
@@ -121,11 +112,6 @@ switch (_state) do
 			player setVariable ["ACE_isUnconscious",false,true];
 			AI_PROTECTION_DEACTIVATE(_unit);
 
-			//reset "being revived" and "forcing respawn" flags
-			if (IS_BEING_REVIVED(_unit)) then {SET_BEING_REVIVED(_unit, false);};
-			if (IS_FORCING_RESPAWN(_unit)) then {SET_FORCING_RESPAWN(_unit, false);};
-
-		};
 	};
 	case STATE_REVIVED:
 	{
@@ -160,6 +146,7 @@ switch (_state) do
 
 			//hotfix: revived while performing an action & playing animation
 			_unit playAction "Stop";
+			_unit switchMove "";
 
 			//hotfix: revived while having no weapon or binocular
 			if ({currentWeapon player == _x} count ["",binocular player] > 0) then
@@ -174,10 +161,6 @@ switch (_state) do
 			//reset blood level and stored bleed damage
 			_unit setVariable [VAR_DAMAGE_BLEED, 0];
 			//_unit setVariable [VAR_DAMAGE, 0];
-
-			//reset "being revived" and "forcing respawn" flags
-			if (IS_BEING_REVIVED(_unit)) then {SET_BEING_REVIVED(_unit, false);};
-			if (IS_FORCING_RESPAWN(_unit)) then {SET_FORCING_RESPAWN(_unit, false);};
 
 			//enable player"s action menu
 			{inGameUISetEventHandler [_x, ""]} forEach ["PrevAction", "NextAction"];
@@ -196,12 +179,6 @@ switch (_state) do
 
 			//ALWAYS heal to full
 			[] call eams_fnc_reviveDamageReset;
-		}
-		else
-		{
-			//reset "being revived" and "forcing respawn" flags locally
-			SET_BEING_REVIVED_LOCAL(_unit, false);
-			SET_FORCING_RESPAWN_LOCAL(_unit, false);
 		};
 	};
 	case STATE_STABILIZED:
@@ -213,8 +190,7 @@ switch (_state) do
 		//flag unit as being NOT unstable
 		_unit setVariable ["eams_revive_unstable", false];
 
-		if (local _unit) then
-		{
+		if (local _unit) then {
 			//not bleeding
 			eams_revive_bleeding = false;
 			// enable talking (direct)
@@ -228,18 +204,9 @@ switch (_state) do
 			//AI_PROTECTION_DEACTIVATE(_unit);
 
 			//reset blood level and stored bleed damage
-			//_unit setVariable [VAR_DAMAGE_BLEED, 0];
+			_unit setVariable [VAR_DAMAGE_BLEED, 0];
 			//_unit setVariable [VAR_DAMAGE, 0];
 
-			//reset "stabilized flag"
-			if (IS_BEING_STABILIZED(_unit)) then {IS_BEING_STABILIZED(_unit, false);};
-		}
-		else
-		{
-			AI_PROTECTION_DEACTIVATE(_unit);
-			//reset "being stabilized"
-			SET_BEING_STABILIZED_LOCAL(_unit, false);
-			//remove stabilize action
 		};
 	};
 	case STATE_RESPAWNED:
@@ -255,9 +222,6 @@ switch (_state) do
 			//allow AI shooting the unit
 			AI_PROTECTION_DEACTIVATE(_unit);
 
-			//reset death reason
-			eams_revive_deathReason = DEATH_REASON_UNKNOWN;
-
 			//not bleeding
 			eams_revive_bleeding = false;
 
@@ -265,15 +229,9 @@ switch (_state) do
 			_unit setVariable [VAR_DAMAGE_BLEED, 0];
 			//_unit setVariable [VAR_DAMAGE, 0];
 
-			//reset "being revived" and "forcing respawn" flags
-			if (IS_BEING_REVIVED(_unit)) then {SET_BEING_REVIVED(_unit, false);};
-			if (IS_FORCING_RESPAWN(_unit)) then {SET_FORCING_RESPAWN(_unit, false);};
-
 			//enable player"s action menu
 			{inGameUISetEventHandler [_x, ""]} forEach ["PrevAction", "NextAction"];
 
-			//remove user action
-			private _actionID = _unit getVariable [VAR_ACTION_ID_RESPAWN,-1];
 			// enable talking (direct)
 			player setVariable ["tf_voiceVolume", 1, true];
 			// unmute hearing
@@ -284,12 +242,6 @@ switch (_state) do
 			//reset wound data
 			[] call eams_fnc_reviveDamageReset;
 			AI_PROTECTION_DEACTIVATE(_unit);
-		}
-		else
-		{
-			//reset "being revived" and "forcing respawn" flags locally
-			SET_BEING_REVIVED_LOCAL(_unit, false);
-			SET_FORCING_RESPAWN_LOCAL(_unit, false);
 		};
 	};
 	default

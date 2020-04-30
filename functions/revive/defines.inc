@@ -61,7 +61,7 @@
 #define VAR_FORCING_RESPAWN				'EAMS_Rev_Var_forcing_respawn'
 
 //#define VAR_DAMAGE						'EAMS_Rev_Var_damage'
-#define VAR_DAMAGE_BLEED				'EAMS_Rev_Var_bleed'
+#define VAR_DAMAGE_BLEED				'EAMS-ReviveBleed'
 
 #define VAR_CAMERA_VIEW					'EAMS_Rev_Var_camera'
 
@@ -117,17 +117,6 @@
 	PLAYER ACTION FLAGS
 
 --------------------------------------------------------------------------------------------------*/
-#define IS_BEING_REVIVED(unit)					(unit getVariable [VAR_BEING_REVIVED, false])
-#define IS_BEING_STABILIZED(unit)				(unit getVariable [VAR_BEING_STABILIZED, false])
-#define IS_FORCING_RESPAWN(unit)				(unit getVariable [VAR_FORCING_RESPAWN, false])
-
-#define SET_BEING_REVIVED(unit,state)			['',state,unit] call eams_fnc_reviveOnBeingRevived;unit setVariable [VAR_TRANSFER_BEING_REVIVED, state, true]
-#define SET_BEING_STABILIZED(unit,state)		['',state,unit] call eams_fnc_reviveOnBeingStabilized;unit setVariable [VAR_TRANSFER_BEING_STABILIZED, state, true]
-#define SET_FORCING_RESPAWN(unit,state)			['',state,unit] call eams_fnc_reviveOnForcingRespawn;unit setVariable [VAR_TRANSFER_FORCING_RESPAWN, state, true]
-
-#define SET_BEING_REVIVED_LOCAL(unit,state)		['',state,unit] call eams_fnc_reviveOnBeingRevived;unit setVariable [VAR_TRANSFER_BEING_REVIVED, state]
-#define SET_BEING_STABILIZED_LOCAL(unit,state)	['',state,unit] call eams_fnc_reviveOnBeingStabilized;unit setVariable [VAR_TRANSFER_BEING_STABILIZED, state]
-#define SET_FORCING_RESPAWN_LOCAL(unit,state)	['',state,unit] call eams_fnc_reviveOnForcingRespawn;unit setVariable [VAR_TRANSFER_FORCING_RESPAWN, state]
 
 /*--------------------------------------------------------------------------------------------------
 
