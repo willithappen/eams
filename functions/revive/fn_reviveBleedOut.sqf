@@ -11,10 +11,7 @@
 	Returns:
 	True if successful, false if not.
 */
-/*
-private _unitVar = param [0, "", [""]];
-private _unit = GET_UNIT(_unitVar);
-
+params ["_unit"];
 if (isNull _unit || {!local _unit}) exitWith {};
 
 //not bleeding yet
@@ -69,7 +66,7 @@ _unit spawn
 				_unit setVariable [VAR_BLOOD_LEVEL,_bloodLevel,true];
 			};
 		};
-		if (IS_DISABLED(_unit)) then
+		if (IS_DISABLEDLOCAL(_unit)) then
 		{
 			_unit setVariable [VAR_DAMAGE_BLEED, _bleed];
 		};
@@ -78,7 +75,7 @@ _unit spawn
 	     player switchAction ""; player switchMove "unconsciousrevivedefault";
 	    };
 		//wait for unit to bleeding out be revived
-		_unit != player || {_blood <= 0  || {!alive _unit || {IS_NOTSAFEMOVE(_unit)}}}
+		_unit != player || {_blood <= 0  || {!alive _unit || {IS_NOTSAFEMOVELOCAL(_unit)}}}
 	};
 
 	//kill unit if it bled out
@@ -87,4 +84,3 @@ _unit spawn
 		_unit setDamage 1;
 	};
 };
-*/

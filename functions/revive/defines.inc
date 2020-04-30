@@ -157,8 +157,11 @@
 #define GET_STATE(unit)								(unit getVariable [VAR_STATE, STATE_RESPAWNED])
 #define GET_STATE_TARGET(target)					[target] call eams_fnc_stateTarget
 #define IS_DISABLED(target)							(GET_STATE_TARGET(target) == STATE_INCAPACITATED)
+#define IS_DISABLEDLOCAL(unit)						(GET_STATE(unit) == STATE_INCAPACITATED)
 #define IS_STABLE(target)							(GET_STATE_TARGET(target) == STATE_STABILIZED)
-#define IS_NOTSAFEMOVE(target)						(!GET_STATE_TARGET(target) && {!GET_STATE_TARGET(target)})
+#define IS_STABLELOCAL(unit)						(GET_STATE(unit) == STATE_STABILIZED)
+#define IS_NOTSAFEMOVE(target)						(!IS_DISABLED(unit) && {!IS_STABLE(unit)})
+#define IS_NOTSAFEMOVELOCAL(unit)					(!IS_DISABLEDLOCAL(unit) && {!IS_STABLELOCAL(unit)})
 #define IS_ACTIVE(target)							(GET_STATE_TARGET(target) < STATE_INCAPACITATED)
 #define IS_HEALTHY(unit)							[unit,'patch'] call eams_fnc_canHealLimb
 /*--------------------------------------------------------------------------------------------------

@@ -76,7 +76,7 @@ switch (_state) do
 			player setVariable ["ACE_isUnconscious",true,true];
 
 			//start bleeding
-			[_unitVar] call eams_fnc_reviveBleedOut;
+			[player] call eams_fnc_reviveBleedOut;
 
 			//disable player"s action menu
 			{inGameUISetEventHandler [_x, "true"]} forEach ["PrevAction", "NextAction"];

@@ -26,7 +26,7 @@ class cfgVehicles {
 			class ACE_MainActions {
 				class EAMS_OpenPatientMedicalMenu {
 					displayName = "Open Patient Medical";
-					condition = QUOTE(((alive _target)));
+					condition = "alive _target";
 					exceptions[] = {"isNotDragging", "isNotCarrying","isNotInside"};
 					statement = QUOTE([_target,player] spawn eams_fnc_ui_treatmentMenu);
 					icon = "eams\data\ui\x_1.paa";
