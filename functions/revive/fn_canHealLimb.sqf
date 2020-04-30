@@ -50,6 +50,7 @@
 	Returns:
 	none
 */
+/*
 params ['_target','_limb',['_healer',objNull]];
 if !(isPlayer _target) exitWith {false};
 _sd = false;
@@ -74,3 +75,4 @@ if (_limb isEqualTo 'patch') then {
 };
 if (_sd && _eamsYes) exitWith {true};
 false
+*/

@@ -7,6 +7,7 @@ $[1.063,["EAMS_TreatmentMenu",[["safezoneX","safezoneY","safezoneW","safezoneH"]
 
 class EAMS_GUI_TreatmentMenuBase {
 	idd= 3267;
+	onLoad = "['hitbody',uiNameSpace getVariable ['EAMS-CurrentPatient',objNull]] spawn eams_fnc_ui_treatmentMenu_state;";
 	class ControlsBackground {
 		class Background {
 			idc = -1;
@@ -132,6 +133,7 @@ class EAMS_GUI_TreatmentMenuBase {
 			y = 0.54 * safezoneH + safezoneY;
 			w = 0.0625 * safezoneW;
 			h = 0.04 * safezoneH;
+			deletable = true;
 			onButtonClick = "[uiNameSpace getVariable ['EAMS-CurrentPatient',player],uiNameSpace getVariable ['EAMS-SelectedBodyPart','hitBody']] call eams_fnc_doHealLimb;";
 			default = 0; // Control selected by default (only one within a display can be used)
 		};
@@ -143,6 +145,7 @@ class EAMS_GUI_TreatmentMenuBase {
 			y = 0.54 * safezoneH + safezoneY;
 			w = 0.0625 * safezoneW;
 			h = 0.04 * safezoneH;
+			onButtonClick = "[uiNameSpace getVariable ['EAMS-CurrentPatient',player],uiNameSpace getVariable ['EAMS-Pulloutofstate',0]] call eams_fnc_ui_stateSwap;";
 			default = 0; // Control selected by default (only one within a display can be used)
 		};
 	};

@@ -52,7 +52,8 @@
 #define VAR_BLOOD_LEVEL					'EAMS_Rev_VarL'
 
 //local unit variables
-#define VAR_STATE						'EAMS_Rev_Var_state'
+#define VAR_STATE						'EAMS-ReviveState'
+#define VAR_STATE_TARGET				'EAMS-ReviveState-Target'
 #define VAR_STATE_PREV					'EAMS_Rev_Var_statePrev'
 
 #define VAR_BEING_REVIVED				'EAMS_Rev_Var_being_revived'
@@ -145,15 +146,16 @@
 
 #define GET_STATE_STR(state)						format['%1(%2)',['RESPAWNED','REVIVED','INCAPACITATED','DEAD','STABILIZED'] select state,state]
 
-#define SET_STATE(unit,state)						['',state,unit] call eams_fnc_reviveOnState;unit setVariable [VAR_TRANSFER_STATE, state, true]
+#define SET_STATE(unit,state)						['',state,unit] remoteExecCall ['eams_fnc_reviveOnState',unit];missionNameSpace setVariable [VAR_STATE, state, true]; RETURN_DATA(player,unit,VAR_STATE)
 #define SET_STATE_XTRA(unit,state,source)			['',[state,source],unit] call eams_fnc_reviveOnState;unit setVariable [VAR_TRANSFER_STATE, [state,source], true]
 #define SET_STATE_XTRA2(unit,state,source,reason)	['',[state,source,reason],unit] call eams_fnc_reviveOnState;unit setVariable [VAR_TRANSFER_STATE, [state,source,reason], true]
 
 #define GET_STATE(unit)								(unit getVariable [VAR_STATE, STATE_RESPAWNED])
-#define IS_DISABLED(unit)							(GET_STATE(unit) == STATE_INCAPACITATED)
-#define IS_STABLE(unit)								(GET_STATE(unit) == STATE_STABILIZED)
-#define IS_NOTSAFEMOVE(unit)						(!IS_DISABLED(unit) && {!IS_STABLE(unit)})
-#define IS_ACTIVE(unit)								(GET_STATE(unit) < STATE_INCAPACITATED)
+#define GET_STATE_TARGET(target)					[target] call eams_fnc_stateTarget
+#define IS_DISABLED(target)							(GET_STATE_TARGET(target) == STATE_INCAPACITATED)
+#define IS_STABLE(target)							(GET_STATE_TARGET(target) == STATE_STABILIZED)
+#define IS_NOTSAFEMOVE(target)						(!GET_STATE_TARGET(target) && {!GET_STATE_TARGET(target)})
+#define IS_ACTIVE(target)							(GET_STATE_TARGET(target) < STATE_INCAPACITATED)
 #define IS_HEALTHY(unit)							[unit,'patch'] call eams_fnc_canHealLimb
 /*--------------------------------------------------------------------------------------------------
 
@@ -164,5 +166,5 @@
 #define STABILIZE_FAILED(unit,target)								([unit,target] call eams_fnc_stabilizeFailed)
 #define REVIVE_COMPLETE(unit,target)								([unit,target] call eams_fnc_ReviveComplete)
 #define REVIVE_FAILED(unit,target)									([unit,target] call eams_fnc_ReviveFailed)
-#define EAMS_FATALDAMAGE											7
+#define EAMS_FATALDAMAGE											9.75
 #define EAMS_GET_WOUNDSSELF(type)									player getVariable [format ["EAMS-%1Wounds",str(type)],[0,0,0,0,0,0]]

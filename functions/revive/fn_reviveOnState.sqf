@@ -80,19 +80,6 @@ switch (_state) do
 
 			//disable player"s action menu
 			{inGameUISetEventHandler [_x, "true"]} forEach ["PrevAction", "NextAction"];
-		}
-		else
-		{
-			//init icon for everyone but player
-			//[ICON_STATE_ADD, _unitVar] call eams_fnc_reviveIconControl;
-		};
-
-		//update pool of incapacitated units
-		if (_playerVar != _unitVar && {_sidePlayer getFriend _sideUnit > 0 && {_sideUnit getFriend _sidePlayer > 0}}) then
-		{
-			//eams_revive_incapacitatedUnits pushBackUnique _unitVar;
-			//eams_revive_unstableUnits pushBackUnique _unitVar;
-
 		};
 
 		//make unit play dead/unconscious animation in vehicles
@@ -124,10 +111,6 @@ switch (_state) do
 			SET_BEING_REVIVED_LOCAL(_unit, false);
 			SET_FORCING_RESPAWN_LOCAL(_unit, false);
 
-			//remove revive and secure user actions
-			{if (_x != -1) then {[_unit,_x] call bis_fnc_holdActionRemove}} forEach [_unit getVariable [VAR_ACTION_ID_REVIVE,-1],_unit getVariable [VAR_ACTION_ID_SECURE,-1],_unit getVariable [VAR_ACTION_ID_STABILIZE,-1]];
-
-			//[ICON_STATE_DEAD, _unitVar] call eams_fnc_reviveIconControl;
 		}
 		else
 		{
@@ -140,9 +123,6 @@ switch (_state) do
 			// enable talking (radio)
 			player setVariable ["tf_unable_to_use_radio", false];
 			player setVariable ["ACE_isUnconscious",false];
-			//remove user action
-			private _actionID = _unit getVariable [VAR_ACTION_ID_RESPAWN,-1];
-			if (_actionID != -1) then {[_unit,_actionID] call bis_fnc_holdActionRemove;};
 
 			//reset "being revived" and "forcing respawn" flags
 			if (IS_BEING_REVIVED(_unit)) then {SET_BEING_REVIVED(_unit, false);};
@@ -164,8 +144,6 @@ switch (_state) do
 		if (local _unit) then
 		{
 			systemChat str(_unit);
-			//reset death reason
-			eams_revive_deathReason = DEATH_REASON_UNKNOWN;
 			// enable talking (direct)
 			player setVariable ["tf_voiceVolume", 1, true];
 			// unmute hearing
@@ -218,10 +196,6 @@ switch (_state) do
 				};
 			};
 
-			//remove user action
-			private _actionID = _unit getVariable [VAR_ACTION_ID_RESPAWN,-1];
-			if (_actionID != -1) then {[_unit,_actionID] call bis_fnc_holdActionRemove;};
-
 			//ALWAYS heal to full
 			[] call eams_fnc_reviveDamageReset;
 		}
@@ -230,12 +204,6 @@ switch (_state) do
 			//reset "being revived" and "forcing respawn" flags locally
 			SET_BEING_REVIVED_LOCAL(_unit, false);
 			SET_FORCING_RESPAWN_LOCAL(_unit, false);
-
-			//remove revive and secure user actions
-			{if (_x != -1) then {[_unit,_x] call bis_fnc_holdActionRemove}} forEach [_unit getVariable [VAR_ACTION_ID_REVIVE,-1],_unit getVariable [VAR_ACTION_ID_SECURE,-1],_unit getVariable [VAR_ACTION_ID_STABILIZE,-1]];
-
-			//remove incap/dead icon
-			//[ICON_STATE_REMOVE,_unitVar] call eams_fnc_reviveIconControl;
 		};
 	};
 	case STATE_STABILIZED:
@@ -273,7 +241,6 @@ switch (_state) do
 			//reset "being stabilized"
 			SET_BEING_STABILIZED_LOCAL(_unit, false);
 			//remove stabilize action
-			{if (_x != -1) then {[_unit,_x] call bis_fnc_holdActionRemove}} forEach [_unit getVariable [VAR_ACTION_ID_STABILIZE,-1]];
 		};
 	};
 	case STATE_RESPAWNED:
@@ -324,12 +291,6 @@ switch (_state) do
 			//reset "being revived" and "forcing respawn" flags locally
 			SET_BEING_REVIVED_LOCAL(_unit, false);
 			SET_FORCING_RESPAWN_LOCAL(_unit, false);
-
-			//remove revive and secure user actions
-			{if (_x != -1) then {[_unit,_x] call bis_fnc_holdActionRemove}} forEach [_unit getVariable [VAR_ACTION_ID_REVIVE,-1],_unit getVariable [VAR_ACTION_ID_SECURE,-1],_unit getVariable [VAR_ACTION_ID_STABILIZE,-1]];
-
-			//remove incap/dead icon
-			//[ICON_STATE_REMOVE,_unitVar] call eams_fnc_;
 		};
 	};
 	default

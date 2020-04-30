@@ -14,21 +14,12 @@
 */
 params ['_player','_target'];
 SET_BEING_REVIVED(_target,false);
-
-if (eams_revive_killfeedShow) then
-{
-	SET_STATE_XTRA(_target,STATE_REVIVED,player);
-}
-else
-{
-	SET_STATE(_target,STATE_REVIVED);
-};
-
+SET_STATE(_target,STATE_REVIVED);
 //remove Morphine from target or player inventory
 if (CAN_USE_EAMSITEM(_healer,'EAMS_Epinephrine')) then {
 	_healer removeItem 'EAMS_Epinephrine'} else {
-	if (CAN_USE_EAMSITEM(_injured,'EAMS_BasicBandage')) then {
-		_healer removeItem 'EAMS_Epinephrine'
+	if (CAN_USE_EAMSITEM(_target,'EAMS_BasicBandage')) then {
+		_target removeItem 'EAMS_Epinephrine'
 	};
 };
 

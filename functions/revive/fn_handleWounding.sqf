@@ -15,10 +15,11 @@ _shouldKO = {
 	params ["_head","_chest","_armL","_armR","_legL","_legR"];
 	_result = false;
 	_totalDamage = _head + _chest + _armL + _armR + _legL + _legR;
-	if (_totalDamage >= 8.5) then {_result = true};
+	if (_totalDamage >= EAMS_FATALDAMAGE) then {_result = true};
 	_result
 };
 _KO = (_woundState) call _shouldKO;
+systemChat str(_KO);
 if (_KO) then {
 	SET_STATE(_unit,STATE_INCAPACITATED);
 };

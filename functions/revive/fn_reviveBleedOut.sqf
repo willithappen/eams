@@ -11,7 +11,7 @@
 	Returns:
 	True if successful, false if not.
 */
-
+/*
 private _unitVar = param [0, "", [""]];
 private _unit = GET_UNIT(_unitVar);
 
@@ -87,3 +87,4 @@ _unit spawn
 		_unit setDamage 1;
 	};
 };
+*/
