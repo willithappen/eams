@@ -106,6 +106,9 @@
 #define CAN_USE_MEDIKIT2(unit,target)	(unit getUnitTrait 'Medic' && {('EAMS_MedicBag' in items unit || {(!isNull target && {'EAMS_MedicBag' in items target})})})
 #define CAN_USE_EAMSITEM(unit,type) 	(type in items unit)
 #define CAN_USE_EAMSITEM2(unit,target,type)		(type in items unit || {(!isNull target && {type in items target})})
+#define EAMS_SET_RETURNITEM(unit,item)	unit setVariable ['EAMS-ReturnItem',item]
+#define EAMS_SET_RETURNITEM2(unit,item,value)	unit setVariable ['EAMS-ReturnItem',item]; unit setVariable ['EAMS-ReturnItem-Split',true]
+#define EAMS_RETURNITEM(unit)					unit addItem (unit getVariable ['EAMS-ReturnItem','EAMS_BasicBandage']); if (unit getVariable ['EAMS-ReturnItem-Split',false]) then {unit removeItem 'EAMS_BasicBandage_Half'}
 #define EAMS_BANDAGESPLIT_BASIC(unit) 	unit removeItem 'EAMS_BasicBandage';unit addItem 'EAMS_BasicBandage_Half'
 #define CAN_STABILIZE(target) 			([target] call eams_fnc_StabilizeIsValid)
 
@@ -132,6 +135,7 @@
 
 --------------------------------------------------------------------------------------------------*/
 #define REQUEST_DATA(requester,requestee,variable) [requester,requestee,variable] remoteExecCall ['eams_fnc_requestData',requestee]
+#define RETURN_DATAXTRA(transmitter,reciever,variable,type,selID,damage) [transmitter,reciever,variable,type,selID,damage] remoteExecCall ['eams_fnc_returnData',transmitter]
 #define RETURN_DATA(transmitter,reciever,variable) [transmitter,reciever,variable] remoteExecCall ['eams_fnc_returnData',transmitter]
 /*--------------------------------------------------------------------------------------------------
 
@@ -166,5 +170,5 @@
 #define STABILIZE_FAILED(unit,target)								([unit,target] call eams_fnc_stabilizeFailed)
 #define REVIVE_COMPLETE(unit,target)								([unit,target] call eams_fnc_ReviveComplete)
 #define REVIVE_FAILED(unit,target)									([unit,target] call eams_fnc_ReviveFailed)
-#define EAMS_FATALDAMAGE											9.75
+#define EAMS_FATALDAMAGE											8.5
 #define EAMS_GET_WOUNDSSELF(type)									player getVariable [format ["EAMS-%1Wounds",str(type)],[0,0,0,0,0,0]]

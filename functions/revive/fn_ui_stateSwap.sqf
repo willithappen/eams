@@ -14,7 +14,7 @@ switch (_stateToSet) do {
 		if (CAN_USE_MEDIKIT(player)) then {
 			_duration = eams_revive_durationMedic/2;
 		};\
-	[_duration, [player,_unit], {STABILIZE_COMPLETE(_args select 0,_args select 1)}, {STABILIZE_FAILED(_args select 0,_args select 1)}, 'Stabilizing...'] call ace_common_fnc_progressBar
+	[_duration, [player,_unit], {STABILIZE_COMPLETE(_args select 0,_args select 1); [_args select 1,player] spawn eams_fnc_ui_treatmentMenu;}, {STABILIZE_FAILED(_args select 0,_args select 1)}, 'Stabilizing...',{true},["isNotDragging","notOnMap","isNotInside"]] call ace_common_fnc_progressBar
 	};
 	case TO_REVIVED: {
 		SET_BEING_REVIVED(_unit,true);
@@ -23,7 +23,7 @@ switch (_stateToSet) do {
 		if (CAN_USE_MEDIKIT(player)) then {
 			_duration = eams_revive_durationMedic;
 		};
-	[_duration, [player,_unit], {REVIVE_COMPLETE(_args select 0,_args select 1)}, {REVIVE_FAILED(_args select 0,_args select 1)}, 'Reviving...'] call ace_common_fnc_progressBar
+	[_duration, [player,_unit], {REVIVE_COMPLETE(_args select 0,_args select 1); [_args select 1,player] spawn eams_fnc_ui_treatmentMenu;}, {REVIVE_FAILED(_args select 0,_args select 1)}, 'Reviving...',{true},["isNotDragging","notOnMap","isNotInside"]] call ace_common_fnc_progressBar
 	};
 	case TO_DEAD: {};
 	case TO_INCON: {};

@@ -2,6 +2,7 @@
 disableSerialization;
 waitUntil { !isNull findDisplay 3267 };
 params ["_selection",["_target",uiNameSpace getVariable ['EAMS-CurrentPatient',objNull]]];
+ctrlSetText [1001,format['Currently Treating: %1',name _target]];
 uiNameSpace setVariable ["EAMS-SelectedBodyPart",_selection];
 lbClear 1100;
 ctrlSetText [1607,""];
@@ -34,18 +35,18 @@ if ((_selection isEqualTo "hitbody") && !(_target isEqualTo player)) then {
 	_isStable = IS_STABLE(_target);
 	_isActive = IS_ACTIVE(_target);
 	if (_isActive) then {ctrlEnable [1607,false];ctrlSetText [1607,"AWAKE"];};
-	if (!(_isStable) && !(_isActive) && !(CAN_USE_EAMSITEM2(player,_target,'EAMS_Epinephrine'))) then {ctrlSetText [1607,"NO EPI"]; 	ctrlEnable [1607,false];};
+	if (!(_isActive) && !(CAN_USE_EAMSITEM2(player,_target,'EAMS_Epinephrine'))) then {ctrlSetText [1607,"NO EPI"]; 	ctrlEnable [1607,false];};
 	if ((_switchStateStabilize == -1) && !(_isActive) && !(_isStable) && (CAN_USE_EAMSITEM2(player,_target,'EAMS_Epinephrine'))) then {
 		ctrlSetText [1607,"Stabilize"];
 		UINameSpace setVariable ["EAMS-Pulloutofstate",1];
 		ctrlEnable [1607,true];
-	};
-	if (_isStable) then {ctrlSetText [1607,"STABLE"];};
+	} else {ctrlSetText [1607,"Too Hurt"];ctrlEnable [1607,false];};
+	if (_isStable) then {ctrlSetText [1607,"STABLE"]; ctrlEnable [1607,false]};
 	if ((_switchStateRevive == -1) && (_isStable) && !(_isActive) && (CAN_USE_EAMSITEM2(player,_target,'EAMS_Epinephrine'))) then {
 		ctrlSetText [1607,"Revive"];
 		UINameSpace setVariable ["EAMS-Pulloutofstate",2];
 		ctrlEnable [1607,true];
-	};
+	} else {ctrlSetText [1607,"Too Hurt"];ctrlEnable [1607,false]};
 	if ((_isStable) && (_isActive)) then {ctrlSetText [1607,"ALIVE"]; ctrlEnable [1607,false];};
 } else {ctrlEnable [1607,false];};
 _woundFloor = floor _woundValue;

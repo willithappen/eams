@@ -52,7 +52,7 @@ switch (_state) do
 		//flag player as being incapacitated
 		_unit setVariable ["eams_revive_incapacitated", true];
 		_unit setVariable ["eams_revive_unstable", true];
-		_unit setVariable ["ACE_isUnconscious",true];
+		_unit setVariable ["ACE_isUnconscious",true,true];
 		//display "incapacitated" message in kill-feed
 
 		if (local _unit) then
@@ -73,7 +73,7 @@ switch (_state) do
 			player setVariable ["tf_globalVolume", 0.3];
 			// disable talking (radio)
 			player setVariable ["tf_unable_to_use_radio", true];
-			player setVariable ["ACE_isUnconscious",true];
+			player setVariable ["ACE_isUnconscious",true,true];
 
 			//start bleeding
 			[_unitVar] call eams_fnc_reviveBleedOut;
@@ -86,6 +86,7 @@ switch (_state) do
 		if (IN_VEHICLE(_unit)) then
 		{
 			_unit playAction "Unconscious";
+			if ((vehicle player != player) && (getDammage vehicle player == 1)) then {moveOut player};
 		};
 	};
 	case STATE_DEAD:
@@ -97,16 +98,11 @@ switch (_state) do
 		_unit setVariable ["eams_revive_incapacitated", false];
 		_unit setVariable ["eams_revive_unstable", false];
 
-		_unit setVariable ["ACE_isUnconscious",false];
+		_unit setVariable ["ACE_isUnconscious",false,true];
+		{inGameUISetEventHandler [_x, ""]} forEach ["PrevAction", "NextAction"];
 		//init and show dead icon for everyone but player
 		if (!local _unit) then
 		{
-			//init icon for everyone but player
-			if (lifeState _unit != "INCAPACITATED") then
-			{
-				//[ICON_STATE_ADD, _unitVar] call eams_fnc_reviveIconControl;
-			};
-
 			//reset "being revived" and "forcing respawn" flags locally
 			SET_BEING_REVIVED_LOCAL(_unit, false);
 			SET_FORCING_RESPAWN_LOCAL(_unit, false);
@@ -122,11 +118,13 @@ switch (_state) do
 			player setVariable ["tf_globalVolume", 1];
 			// enable talking (radio)
 			player setVariable ["tf_unable_to_use_radio", false];
-			player setVariable ["ACE_isUnconscious",false];
+			player setVariable ["ACE_isUnconscious",false,true];
+			AI_PROTECTION_DEACTIVATE(_unit);
 
 			//reset "being revived" and "forcing respawn" flags
 			if (IS_BEING_REVIVED(_unit)) then {SET_BEING_REVIVED(_unit, false);};
 			if (IS_FORCING_RESPAWN(_unit)) then {SET_FORCING_RESPAWN(_unit, false);};
+
 		};
 	};
 	case STATE_REVIVED:
@@ -138,7 +136,7 @@ switch (_state) do
 		//flag unit as being NOT incapacitated
 		_unit setVariable ["eams_revive_incapacitated", false];
 		_unit setVariable ["eams_revive_unstable", false];
-		_unit setVariable ["ACE_isUnconscious",false];
+		_unit setVariable ["ACE_isUnconscious",false,true];
 		//display "revived" message in kill-feed; only if revived unit is friendly
 
 		if (local _unit) then
@@ -150,7 +148,7 @@ switch (_state) do
 			player setVariable ["tf_globalVolume", 1];
 			// enable talking (radio)
 			player setVariable ["tf_unable_to_use_radio", false];
-			player setVariable ["ACE_isUnconscious",false];
+			player setVariable ["ACE_isUnconscious",false,true];
 			//not bleeding
 			eams_revive_bleeding = false;
 
@@ -238,6 +236,7 @@ switch (_state) do
 		}
 		else
 		{
+			AI_PROTECTION_DEACTIVATE(_unit);
 			//reset "being stabilized"
 			SET_BEING_STABILIZED_LOCAL(_unit, false);
 			//remove stabilize action
@@ -275,16 +274,16 @@ switch (_state) do
 
 			//remove user action
 			private _actionID = _unit getVariable [VAR_ACTION_ID_RESPAWN,-1];
-			if (_actionID != -1) then {[_unit,_actionID] call bis_fnc_holdActionRemove;};
 			// enable talking (direct)
 			player setVariable ["tf_voiceVolume", 1, true];
 			// unmute hearing
 			player setVariable ["tf_globalVolume", 1];
 			// enable talking (radio)
 			player setVariable ["tf_unable_to_use_radio", false];
-			player setVariable ["ACE_isUnconscious",false];
+			player setVariable ["ACE_isUnconscious",false,true];
 			//reset wound data
 			[] call eams_fnc_reviveDamageReset;
+			AI_PROTECTION_DEACTIVATE(_unit);
 		}
 		else
 		{

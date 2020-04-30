@@ -4,9 +4,7 @@
 
 params [["_unit", objNull, [objNull]]];
 
-if (REVIVE_ENABLED(_unit)) then
-{
-	SET_STATE(_unit, STATE_RESPAWNED);
-};
+SET_STATE(_unit,STATE_RESPAWNED);
+_unit setVariable [format ["EAMS-%1Wounds","Basic"],[0,0,0,0,0,0]];
 
 true

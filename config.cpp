@@ -22,6 +22,32 @@ ADD_EAMS_MEDICAL_ITEMS();
 class cfgVehicles {
 	class Man;
 	class CAManBase: Man {
+		class ACE_Actions {
+			class ACE_MainActions {
+				class EAMS_OpenPatientMedicalMenu {
+					displayName = "Open Patient Medical";
+					condition = QUOTE(((alive _target)));
+					exceptions[] = {"isNotDragging", "isNotCarrying","isNotInside"};
+					statement = QUOTE([_target,player] spawn eams_fnc_ui_treatmentMenu);
+					icon = "eams\data\ui\x_1.paa";
+				};
+				class ACE_LoadPatient {
+					displayName = "Load Patient";
+					condition = QUOTE(((_target getVariable ['ACE_isUnconscious',false]) && (alive _target) && (vehicle _target == _target)));
+					exceptions[] = {"isNotDragging", "isNotCarrying"};
+					statement = QUOTE([_player, _target] call eams_fnc_ace_loadUnit);
+					icon = "eams\data\ui\x_0.paa";
+					insertChildren = QUOTE(call eams_fnc_ace_addLoadPatientActions);
+				};
+				class ACE_UnloadPatient {
+					displayName = "Unload Patient";
+					condition = QUOTE(((_target getVariable ['ACE_isUnconscious',false]) && (alive _target) && (vehicle _target == _target)));
+					exceptions[] = {"isNotDragging", "isNotCarrying", "isNotInside"};
+					statement = QUOTE([_player, _target] call eams_fnc_ace_unloadUnit);
+					icon = "eams\data\ui\x_0.paa";
+				};
+			};
+		};
 		class HitPoints {
 			//Script Macro addition of arms and legs inspired by https://github.com/acemod/ACE3/blob/master/addons/medical_engine/script_macros_config.hpp
 			// Knowledge of total hitpoints and final hitpoint https://github.com/DomT602/Altis_Scriptorium/blob/master/Modded_Framework/DEV/config.cpp
@@ -198,6 +224,10 @@ class cfgFunctions {
 				class transmitData {};
 				class returnData {};
 				class recieveData {};
+
+				class ace_loadUnit {};
+				class ace_unloadUnit {};
+				class ace_addLoadPatientActions {};
 			};
 		};
 	};

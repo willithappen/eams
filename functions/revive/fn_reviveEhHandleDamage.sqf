@@ -6,7 +6,7 @@ _hit = toLower _hitPoint;
 _validHitPoints = ["hithead","hitbody","hitleftarm","hitrightarm","hitleftleg","hitrightleg"];
 if (_hit in _validHitPoints) then {
 	_damageFinal = 0;
-	if ((_hit isEqualTo "hithead") && (_damage > 2)) then {_damageFinal = 1.5} else {_damageFinal = _damage};
+	if ((_hit isEqualTo "hithead") && (_damage > 2.5)) then {_damageFinal = 2.5} else {_damageFinal = _damage};
 	systemChat format ["Unit really took %1 but we are passing %2 to %3",_damage,_damageFinal,_hitPoint];
 	[_hit,_damageFinal,_projectile] call EAMS_fnc_handleWounding;
 };
