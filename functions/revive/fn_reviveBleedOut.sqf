@@ -62,7 +62,7 @@ _unit spawn
 			{
 				_bloodLevelPrev = _bloodLevel;
 
-				_unit setVariable [VAR_BLOOD_LEVEL,_bloodLevel,true];
+				_unit setVariable [VAR_BLOOD_LEVEL,_bloodLevel];
 			};
 		};
 		if (IS_DISABLEDLOCAL(_unit)) then
