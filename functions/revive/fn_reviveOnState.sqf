@@ -85,7 +85,7 @@ switch (_state) do
 		//make unit play dead/unconscious animation in vehicles
 		if (IN_VEHICLE(_unit)) then
 		{
-			_unit playAction "Unconscious";
+			_unit switchAction "Unconscious";
 			if ((vehicle player != player) && (getDammage vehicle player == 1)) then {moveOut player};
 		};
 	};
@@ -145,7 +145,7 @@ switch (_state) do
 			AI_PROTECTION_DEACTIVATE(_unit);
 
 			//hotfix: revived while performing an action & playing animation
-			_unit playAction "Stop";
+			_unit switchMove "Stop";
 			_unit switchMove "";
 
 			//hotfix: revived while having no weapon or binocular

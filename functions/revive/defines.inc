@@ -125,6 +125,7 @@
 --------------------------------------------------------------------------------------------------*/
 #define REQUEST_DATA(requester,requestee,variable) [requester,requestee,variable] remoteExecCall ['eams_fnc_requestData',requestee]
 #define RETURN_DATAXTRA(transmitter,reciever,variable,type,selID,damage) [transmitter,reciever,variable,type,selID,damage] remoteExecCall ['eams_fnc_returnData',transmitter]
+#define RETURN_DATAXTRATAKE(transmitter,reciever,variable,type,selID,damage,takeaway) [transmitter,reciever,variable,type,selID,damage,takeaway] remoteExecCall ['eams_fnc_returnData',transmitter]
 #define RETURN_DATA(transmitter,reciever,variable) [transmitter,reciever,variable] remoteExecCall ['eams_fnc_returnData',transmitter]
 /*--------------------------------------------------------------------------------------------------
 
@@ -152,6 +153,7 @@
 #define IS_NOTSAFEMOVE(target)						(!IS_DISABLED(unit) && {!IS_STABLE(unit)})
 #define IS_NOTSAFEMOVELOCAL(unit)					(!IS_DISABLEDLOCAL(unit) && {!IS_STABLELOCAL(unit)})
 #define IS_ACTIVE(target)							(GET_STATE_TARGET(target) < STATE_INCAPACITATED)
+#define IS_ACTIVELOCAL(unit)							(GET_STATE(unit) < STATE_INCAPACITATED)
 #define IS_HEALTHY(unit)							[unit,'patch'] call eams_fnc_canHealLimb
 /*--------------------------------------------------------------------------------------------------
 
@@ -162,5 +164,4 @@
 #define STABILIZE_FAILED(unit,target)								([unit,target] call eams_fnc_stabilizeFailed)
 #define REVIVE_COMPLETE(unit,target)								([unit,target] call eams_fnc_ReviveComplete)
 #define REVIVE_FAILED(unit,target)									([unit,target] call eams_fnc_ReviveFailed)
-#define EAMS_FATALDAMAGE											8.5
-#define EAMS_GET_WOUNDSSELF(type)									player getVariable [format ["EAMS-%1Wounds",str(type)],[0,0,0,0,0,0]]
+#define EAMS_GET_WOUNDSSELF(space,type)								space getVariable [format ['EAMS-%1Wounds',str(type)],[0,0,0,0,0,0]]

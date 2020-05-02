@@ -35,15 +35,15 @@ class cfgVehicles {
 					displayName = "Load Patient";
 					condition = QUOTE(((_target getVariable ['ACE_isUnconscious',false]) && (alive _target) && (vehicle _target == _target)));
 					exceptions[] = {"isNotDragging", "isNotCarrying"};
-					statement = QUOTE([_player, _target] call eams_fnc_ace_loadUnit);
+					statement = "[player, _target] spawn eams_fnc_ace_loadUnit";
 					icon = "eams\data\ui\x_0.paa";
-					insertChildren = QUOTE(call eams_fnc_ace_addLoadPatientActions);
+					//insertChildren = QUOTE([_target] call eams_fnc_ace_addLoadPatientActions);
 				};
 				class ACE_UnloadPatient {
 					displayName = "Unload Patient";
-					condition = QUOTE(((_target getVariable ['ACE_isUnconscious',false]) && (alive _target) && (vehicle _target == _target)));
+					condition = QUOTE(((_target getVariable ['ACE_isUnconscious',false]) && (alive _target) && !(vehicle _target == _target)));
 					exceptions[] = {"isNotDragging", "isNotCarrying", "isNotInside"};
-					statement = QUOTE([_player, _target] call eams_fnc_ace_unloadUnit);
+					statement = "[player, _target] spawn eams_fnc_ace_unloadUnit";
 					icon = "eams\data\ui\x_0.paa";
 				};
 			};
@@ -52,7 +52,7 @@ class cfgVehicles {
 			//Script Macro addition of arms and legs inspired by https://github.com/acemod/ACE3/blob/master/addons/medical_engine/script_macros_config.hpp
 			// Knowledge of total hitpoints and final hitpoint https://github.com/DomT602/Altis_Scriptorium/blob/master/Modded_Framework/DEV/config.cpp
 			// Thanks to ACE's knowledge and DomT602
-            ADD_HITPOINTS_EAMS(1,1);
+            ADD_HITPOINTS_EAMS(2,1.75);
         };
 	};
 	//Suggested armor values from ACE_medical_engine CfgVehicles and based on ACE HitPoint Armor Values

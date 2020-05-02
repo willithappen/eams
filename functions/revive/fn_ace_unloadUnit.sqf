@@ -1,4 +1,3 @@
-#include "\z\ace\addons\main\script_macros.hpp"
 /*
  * Author: Glowbal
  * Unloads an unconscious or dead patient from their vehicle.
@@ -16,14 +15,6 @@
  * Public: No
  */
 
-params ["_medic", "_patient"];
-
-if (vehicle _patient == _patient) exitWith {
-    TRACE_1("Unit is not in a vehicle",_patient);
-};
-
-if (_patient call EFUNC(common,isAwake)) exitWith {
-    TRACE_1("Unit is awake",_patient);
-};
-
-["ace_unloadPersonEvent", [_patient, vehicle _patient, _medic], _patient] call CBA_fnc_targetEvent;
+params ['_medic', '_patient'];
+[_patient] call ace_common_fnc_unloadPerson;
+_patient switchMove "unconsciousrevivedefault";

@@ -1,4 +1,4 @@
-#include "defines.inc"
+﻿#include "defines.inc"
 /*
 	Author: Jiri Wainar
 
@@ -31,7 +31,6 @@ _unit spawn
 	sleep 0.1;	//delay the bleeding so all the dmg is properly recieved BEFORE bleeding mechannics start
 
 	eams_revive_bleeding = true;
-
 	//define the bleed out time
 	private _timeStart = time;
 	private _timeTotal = eams_revive_bleedOutDuration;
@@ -45,6 +44,7 @@ _unit spawn
 		sleep 0.1;
 
 		if (eams_revive_bleeding) then {
+			if (visibleMap) then {openMap false};
 		//calculate damage & blood
 		//_damage = _unit getVariable [VAR_DAMAGE,0];
 		_bleed = (time - _timeStart) / _timeTotal;
@@ -70,8 +70,14 @@ _unit spawn
 			_unit setVariable [VAR_DAMAGE_BLEED, _bleed];
 		};
 		//ToDo: Make array of checks for weird cases where animation can wig out
-		if (animationState player in ["unconscious","amovpknlmstpsnonwnondnon","unconsciousoutprone","amovpercmstpsraswrfldnon","amovppnemstpsraswrfldnon","amovpknlmstpsraswrfldnon","amovpknlmstpsraswlnrdnon_amovpknlmstpsraswrfldnon_end","ainvpknlmstpsnonwrfldnon_medicend","ainvpknlmstpsnonwrfldr_medic2"]) then {
-	     player switchAction ""; player switchMove "unconsciousrevivedefault";
+		// ["amovpknlmstpsnonwnondnon","unconsciousoutprone","amovpercmstpsraswrfldnon","amovppnemstpsraswrfldnon","amovpknlmstpsraswrfldnon","amovpknlmstpsraswlnrdnon_amovpknlmstpsraswrfldnon_end","ainvpknlmstpsnonwrfldnon_medicend","ainvpknlmstpsnonwrfldr_medic2"]
+		// Bad Animations ^
+		if (vehicle player != player) then {
+			player switchAction "Unconscious";
+		};
+		_badAnimations = ["amovpknlmstpsnonwnondnon","unconsciousoutprone","amovpercmstpsraswrfldnon","amovppnemstpsraswrfldnon","amovpknlmstpsraswrfldnon","amovpknlmstpsraswlnrdnon_amovpknlmstpsraswrfldnon_end","ainvpknlmstpsnonwrfldnon_medicend","ainvpknlmstpsnonwrfldr_medic2"];
+		if ((animationState player in _badAnimations) && vehicle player == player) then {
+	     player switchMove ""; player switchMove "unconsciousrevivedefault"; player playMove "unconsciousrevivedefault";
 	    };
 		//wait for unit to bleeding out be revived
 		_unit != player || {_blood <= 0  || {!alive _unit || {IS_NOTSAFEMOVELOCAL(_unit)}}}
