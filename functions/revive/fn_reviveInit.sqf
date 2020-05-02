@@ -1,4 +1,4 @@
-﻿#include "defines.inc"
+#include "defines.inc"
 params ["_value"];
 if (allDisplays isEqualTo [findDisplay 0]) exitWith {};
 if !(isMultiplayer) exitWith {diag_log "EAMS ERROR: EAMS will not function outside of multiplayer"};
@@ -9,7 +9,7 @@ if !(isMultiplayer) exitWith {diag_log "EAMS ERROR: EAMS will not function outsi
 //GrenadeBase --> Grenade
 //ignore damage under the threshold
 //private _woundType = "";
-if (isNil EAMS_ReviveEnabled) then {EAMS_ReviveEnabled = false};
+if (isNil "EAMS_ReviveEnabled") then {EAMS_ReviveEnabled = false};
 eams_ReviveMode = EAMS_ReviveEnabled;
 if !(eams_ReviveMode) exitWith {diag_log "EAMS RPT: Medical Not Enabled"};
 diag_log format ["EAMS RPT: Medical Enabled at %1",diag_tickTime];
