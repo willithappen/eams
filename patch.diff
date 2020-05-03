@@ -1,0 +1,85 @@
+diff --git a/functions/revive/defines.inc b/functions/revive/defines.inc
+index 0f81256..c3d23ac 100644
+--- a/functions/revive/defines.inc
++++ b/functions/revive/defines.inc
+@@ -75,7 +75,6 @@
+ // [MIN,AVG,MAX]
+ #define EAMS_HEARTRATE					[60,0,100]
+ 
+-
+ #define AI_PROTECTION_ACTIVATE(unit)	if (!captive unit) then {unit setCaptive true;unit setVariable ['EAMS_Rev_Var_captiveForced',true];} else {unit setVariable ['EAMS_Rev_Var_captiveForced',false];}
+ #define AI_PROTECTION_DEACTIVATE(unit)	if (unit getVariable ['EAMS_Rev_Var_captiveForced',false]) then {unit setVariable ['EAMS_Rev_Var_captiveForced',false];unit setCaptive false;}
+ 
+diff --git a/functions/revive/fn_reviveInit.sqf b/functions/revive/fn_reviveInit.sqf
+index d1d9d8b..d1b6965 100644
+--- a/functions/revive/fn_reviveInit.sqf
++++ b/functions/revive/fn_reviveInit.sqf
+@@ -1,7 +1,7 @@
+-#include "defines.inc"
++﻿#include "defines.inc"
+ params ["_value"];
+ if (allDisplays isEqualTo [findDisplay 0]) exitWith {};
+-if !(isMultiplayer) exitWith {diag_log "EAMS ERROR: EAMS will not function outside of multiplayer"};
++//if !(isMultiplayer) exitWith {diag_log "EAMS ERROR: EAMS will not function outside of multiplayer"};
+ //_LIST OF PROJECTILES__
+ //[configFile >> "CfgAmmo" >> "TYPE", true] call BIS_FNC_ReturnParents;
+ //BulletBase --> Rifle/Pistol
+@@ -9,7 +9,7 @@ if !(isMultiplayer) exitWith {diag_log "EAMS ERROR: EAMS will not function outsi
+ //GrenadeBase --> Grenade
+ //ignore damage under the threshold
+ //private _woundType = "";
+-if (isNil "EAMS_ReviveEnabled") then {EAMS_ReviveEnabled = false};
++//if (isNil "EAMS_ReviveEnabled") then {EAMS_ReviveEnabled = false};
+ eams_ReviveMode = EAMS_ReviveEnabled;
+ if !(eams_ReviveMode) exitWith {diag_log "EAMS RPT: Medical Not Enabled"};
+ diag_log format ["EAMS RPT: Medical Enabled at %1",diag_tickTime];
+@@ -19,6 +19,14 @@ eams_revive_duration = 120; // Revive Duration normal
+ eams_revive_medicSpeedMultiplier = 12; // 12x Normal Value
+ eams_revive_durationMedic = eams_revive_duration/eams_revive_medicSpeedMultiplier;
+ eams_revive_bleedOutDuration = 600; // 10 minute bleed out delay
++if (isServer) then {
++	addMissionEventHandler ["EntityRespawned", {
++ params ["_entity", "_corpse"];
++ if !(isPlayer _entity) exitWith {};
++_entity setCaptive false;
++}];
++}
++
+ 
+ eams_fatalDamageGlobal = 8.25;
+ if (!hasInterface || {side player == sideLogic}) exitWith {};
+diff --git a/functions/revive/fn_reviveOnState.sqf b/functions/revive/fn_reviveOnState.sqf
+index 9459330..c95b6ab 100644
+--- a/functions/revive/fn_reviveOnState.sqf
++++ b/functions/revive/fn_reviveOnState.sqf
+@@ -124,7 +124,7 @@ switch (_state) do
+ 		_unit setVariable ["eams_revive_unstable", false];
+ 		_unit setVariable ["ACE_isUnconscious",false,true];
+ 		//display "revived" message in kill-feed; only if revived unit is friendly
+-
++		AI_PROTECTION_DEACTIVATE(_unit);
+ 		if (local _unit) then
+ 		{
+ 			systemChat str(_unit);
+@@ -189,7 +189,7 @@ switch (_state) do
+ 
+ 		//flag unit as being NOT unstable
+ 		_unit setVariable ["eams_revive_unstable", false];
+-
++		AI_PROTECTION_DEACTIVATE(_unit);
+ 		if (local _unit) then {
+ 			//not bleeding
+ 			eams_revive_bleeding = false;
+@@ -216,11 +216,10 @@ switch (_state) do
+ 		//flag player as being NOT incapacitated
+ 		_unit setVariable ["eams_revive_incapacitated", false];
+ 		_unit setVariable ["eams_revive_unstable", false];
+-
++		AI_PROTECTION_DEACTIVATE(_unit);
+ 		if (local _unit) then
+ 		{
+ 			//allow AI shooting the unit
+-			AI_PROTECTION_DEACTIVATE(_unit);
+ 
+ 			//not bleeding
+ 			eams_revive_bleeding = false;

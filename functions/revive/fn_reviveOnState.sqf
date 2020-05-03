@@ -124,7 +124,7 @@ switch (_state) do
 		_unit setVariable ["eams_revive_unstable", false];
 		_unit setVariable ["ACE_isUnconscious",false,true];
 		//display "revived" message in kill-feed; only if revived unit is friendly
-
+		AI_PROTECTION_DEACTIVATE(_unit);
 		if (local _unit) then
 		{
 			systemChat str(_unit);
@@ -189,7 +189,7 @@ switch (_state) do
 
 		//flag unit as being NOT unstable
 		_unit setVariable ["eams_revive_unstable", false];
-
+		AI_PROTECTION_DEACTIVATE(_unit);
 		if (local _unit) then {
 			//not bleeding
 			eams_revive_bleeding = false;
@@ -216,11 +216,10 @@ switch (_state) do
 		//flag player as being NOT incapacitated
 		_unit setVariable ["eams_revive_incapacitated", false];
 		_unit setVariable ["eams_revive_unstable", false];
-
+		AI_PROTECTION_DEACTIVATE(_unit);
 		if (local _unit) then
 		{
 			//allow AI shooting the unit
-			AI_PROTECTION_DEACTIVATE(_unit);
 
 			//not bleeding
 			eams_revive_bleeding = false;

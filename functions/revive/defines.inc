@@ -75,7 +75,6 @@
 // [MIN,AVG,MAX]
 #define EAMS_HEARTRATE					[60,0,100]
 
-
 #define AI_PROTECTION_ACTIVATE(unit)	if (!captive unit) then {unit setCaptive true;unit setVariable ['EAMS_Rev_Var_captiveForced',true];} else {unit setVariable ['EAMS_Rev_Var_captiveForced',false];}
 #define AI_PROTECTION_DEACTIVATE(unit)	if (unit getVariable ['EAMS_Rev_Var_captiveForced',false]) then {unit setVariable ['EAMS_Rev_Var_captiveForced',false];unit setCaptive false;}
 
