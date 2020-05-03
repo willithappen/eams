@@ -12,5 +12,5 @@
 	Returns:
 	none
 */
-params ['_player','_target'];
-_player playAction 'medicStop';
+params ['_healer','_target'];
+_healer playAction 'medicStop';

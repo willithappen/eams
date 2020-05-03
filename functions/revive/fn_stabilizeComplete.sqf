@@ -12,9 +12,9 @@
 	Returns:
 	none
 */
-params ['_player','_target'];
+params ['_healer','_target'];
 //stop revive animation
-_player playAction 'medicStop';
+_healer playAction 'medicStop';
 SET_STATE(_target,STATE_STABILIZED);
 //remove Morphine from target or player inventory
 if (CAN_USE_EAMSITEM(_healer,'EAMS_Epinephrine')) then {
