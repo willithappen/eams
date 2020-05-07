@@ -37,17 +37,17 @@ _allWounds set [_woundGroup,_woundArray];
 systemChat format ["%1 %2 %3 %4",_damageCurrent,_damageNew,_woundArray,_allWounds];
 //Should the current state of the player also result in them being knocked out?
 //Additional damage can then occur after being knocked out, this will only extend the length of time they are knocked out, not renock them out
+_sumArray = {
+	params ["_type","_array"];
+	_sum = 0;
+	_arrSel = _array select _type;
+	{
+		_sum = _sum + _x;
+	}forEach _arrSel;
+	_sum
+};
 _shouldKO = {
   params ["_array"];
-  _sumArray = {
-  params ["_type","_array"];
-  _sum = 0;
-  _arrSel = _array select _type;
-  {
-  _sum = _sum + _x;
-  }forEach _arrSel;
-  _sum
-  };
    _contusions = [0,_array] call _sumArray;
    _velocities = [1,_array] call _sumArray;
    _avulsions = [2,_array] call _sumArray;
@@ -65,19 +65,16 @@ if (_KO select 0) then {
 };
 if (_KO select 1) then {
 	_unit setDamage 1;
-}
-_hasInjury = {
-	params ["_head","_chest","_armL","_armR","_legL","_legR"];
-	_result = false;
-	_totalDamage = _head + _chest + _armL + _armR + _legL + _legR;
-	if (_totalDamage > 0) then {_result = true};
-	_result
 };
-_injured = (_woundsArray) call _hasInjury;
+_contusions = [0,_allWounds] call _sumArray;
+_velocities = [1,_allWounds] call _sumArray;
+_avulsions = [2,_allWounds] call _sumArray;
+_abrasions = [3,_allWounds] call _sumArray;
+_totalDamage = (_contusions / 3) + _velocities + (_avulsions / 3) + (_abrasions / 2);
 //   [10] call BIS_fnc_bloodEffect; Light splatter
 //   [50] call BIS_fnc_bloodEffect;
 //    [100] call BIS_fnc_bloodEffect; heavy splatter
-if (_injured) then {
+if (_totalDamage > 0) then {
  [] spawn {
   if (eams_isInjured) exitWith {};
   waitUntil {
@@ -105,7 +102,7 @@ if (_injured) then {
    };
    _allWounds = player getVariable [format ["EAMS-%1Wounds","All"],[[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]]];
    [10] call BIS_fnc_bloodEffect;
-   _healed = _allWounds call _isHealed;
+   _healed = [_allWounds] call _isHealed;
    _healed
   };
   eams_isInjured = false;
