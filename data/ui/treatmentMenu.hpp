@@ -8,7 +8,7 @@ $[1.063,["EAMS_TreatmentMenu",[["safezoneX","safezoneY","safezoneW","safezoneH"]
 class EAMS_GUI_TreatmentMenuBase {
 	idd= 3267;
 	onLoad = "['hitbody',uiNameSpace getVariable ['EAMS-CurrentPatient',objNull]] spawn eams_fnc_ui_treatmentMenu_state;";
-	onUnload = "uiNameSpace setVariable ['EAMS-CurrentPatient',objNull]; missionNameSpace setVariable ['EAMS-BasicWounds-Target',[0]];";
+	onUnload = "uiNameSpace setVariable ['EAMS-CurrentPatient',objNull]; missionNameSpace setVariable ['EAMS-AllWounds-Target',[0]];";
 	class ControlsBackground {
 		class Background {
 			idc = -1;

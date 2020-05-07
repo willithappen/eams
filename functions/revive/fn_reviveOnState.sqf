@@ -95,10 +95,10 @@ switch (_state) do
 		//eams_revive_unstableUnits = eams_revive_unstableUnits - [_unitVar];
 
 		//flag unit as being NOT incapacitated
-		_unit setVariable ["eams_revive_incapacitated", false];
-		_unit setVariable ["eams_revive_unstable", false];
+		player setVariable ["eams_revive_incapacitated", false];
+		player setVariable ["eams_revive_unstable", false];
 
-		_unit setVariable ["ACE_isUnconscious",false,true];
+		player setVariable ["ACE_isUnconscious",false,true];
 		{inGameUISetEventHandler [_x, ""]} forEach ["PrevAction", "NextAction"];
 		//init and show dead icon for everyone but player
 			//not bleeding
@@ -110,7 +110,7 @@ switch (_state) do
 			// enable talking (radio)
 			player setVariable ["tf_unable_to_use_radio", false];
 			player setVariable ["ACE_isUnconscious",false,true];
-			AI_PROTECTION_DEACTIVATE(_unit);
+			AI_PROTECTION_DEACTIVATE(player);
 
 	};
 	case STATE_REVIVED:
@@ -125,6 +125,8 @@ switch (_state) do
 		_unit setVariable ["ACE_isUnconscious",false,true];
 		//display "revived" message in kill-feed; only if revived unit is friendly
 		AI_PROTECTION_DEACTIVATE(_unit);
+		_unit switchMove "Stop";
+		_unit switchMove "";
 		if (local _unit) then
 		{
 			systemChat str(_unit);
@@ -164,18 +166,6 @@ switch (_state) do
 
 			//enable player"s action menu
 			{inGameUISetEventHandler [_x, ""]} forEach ["PrevAction", "NextAction"];
-
-			//restore player"s camera
-			if (cameraView != (player getVariable [VAR_CAMERA_VIEW, "internal"])) then
-			{
-				[] spawn
-				{
-					titleCut ["","BLACK OUT",0.5];
-					sleep 0.5;
-					player switchCamera (player getVariable [VAR_CAMERA_VIEW, "internal"]);
-					titleCut ["","BLACK IN",0.5];
-				};
-			};
 
 			//ALWAYS heal to full
 			[] call eams_fnc_reviveDamageReset;
@@ -225,7 +215,7 @@ switch (_state) do
 			eams_revive_bleeding = false;
 
 			//reset blood level and stored bleed damage
-			_unit setVariable [VAR_DAMAGE_BLEED, 0];
+			player setVariable [VAR_DAMAGE_BLEED, 0];
 			//_unit setVariable [VAR_DAMAGE, 0];
 
 			//enable player"s action menu
@@ -240,7 +230,7 @@ switch (_state) do
 			player setVariable ["ACE_isUnconscious",false,true];
 			//reset wound data
 			[] call eams_fnc_reviveDamageReset;
-			AI_PROTECTION_DEACTIVATE(_unit);
+			AI_PROTECTION_DEACTIVATE(player);
 		};
 	};
 	default

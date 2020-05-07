@@ -9,8 +9,8 @@ if ((lifeState player == "INCAPACITATED") || (visibleMap) || (eyePos player sele
 
 if ((isNull _target) || ((_target distance _player) >= _acceptableDistance) || !(_target isKindOf 'Man')) exitWith {
 	UINameSpace setVariable ["EAMS-CurrentPatient",_player];
-	_woundsArray = player getVariable [format ["EAMS-%1Wounds","Basic"],[0,0,0,0,0,0]];
-	missionNameSpace setVariable ["EAMS-BasicWounds-Target",_woundsArray];
+	_allWounds = player getVariable [format ["EAMS-%1Wounds","All"],[[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]]];
+	missionNameSpace setVariable ["EAMS-AllWounds-Target",_allWounds];
 	createDialog "EAMS_GUI_TreatmentMenuBase";
 	//["hitbody",_player] spawn eams_fnc_ui_treatmentMenu_state;
 };
@@ -20,6 +20,6 @@ if !((((_target distance _player) > _acceptableDistance) && (_target isKindOf 'M
 	_isActive = IS_ACTIVE(_target);
 	UINameSpace setVariable ["EAMS-CurrentPatientStatus",[_isStable,_isDisabled,_isActive]];
 	UINameSpace setVariable ["EAMS-CurrentPatient",_target];
-	REQUEST_DATA(_player,_target,"EAMS-BasicWounds");
+	REQUEST_DATA(_player,_target,"EAMS-AllWounds");
 	createDialog "EAMS_GUI_TreatmentMenuBase";
 };

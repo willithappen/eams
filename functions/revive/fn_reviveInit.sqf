@@ -21,15 +21,15 @@ eams_revive_durationMedic = eams_revive_duration/eams_revive_medicSpeedMultiplie
 eams_revive_bleedOutDuration = 600; // 10 minute bleed out delay
 if (isServer) then {
 	addMissionEventHandler ["EntityRespawned", {
- params ["_entity", "_corpse"];
- if !(isPlayer _entity) exitWith {};
-_entity setCaptive false;
-}];
-}
+	 params ["_entity", "_corpse"];
+	 if !(isPlayer _entity) exitWith {};
+	SET_STATE(_entity,STATE_RESPAWNED);
+	}];
+};
 
 
-eams_fatalDamageGlobal = 8.25;
-if (!hasInterface || {side player == sideLogic}) exitWith {};
+eams_fatalDamageGlobal = 9.25;
+if (!hasInterface || {side player == sideLogic} || (typeOf player == "VirtualCurator_F")) exitWith {};
 
 //Values for PLAYERS BELOW
 
@@ -40,7 +40,7 @@ EAMS_nearPlayers = [];
 EAMS_IsInjured = false;
 private _playerVar = GET_UNIT_VAR(player);
 //_nearbyHandler = [{[] call eams_fnc_collectNearbyValues}, 1, [player]] call CBA_fnc_addPerFrameHandler;
-player setVariable [format ["EAMS-%1Wounds","Basic"],[0,0,0,0,0,0]];
+player setVariable [format ["EAMS-%1Wounds","All"],[[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]]];
 /*--------------------------------------------------------------------------------------------------
 
 	EVENT HANDLERS

@@ -72,13 +72,22 @@ _unit spawn
 		//ToDo: Make array of checks for weird cases where animation can wig out
 		// ["amovpknlmstpsnonwnondnon","unconsciousoutprone","amovpercmstpsraswrfldnon","amovppnemstpsraswrfldnon","amovpknlmstpsraswrfldnon","amovpknlmstpsraswlnrdnon_amovpknlmstpsraswrfldnon_end","ainvpknlmstpsnonwrfldnon_medicend","ainvpknlmstpsnonwrfldr_medic2"]
 		// Bad Animations ^
+		_badAnimations = ["amovpknlmstpsnonwnondnon","unconscious","unconsciousoutprone","amovpercmstpsraswrfldnon","amovppnemstpsraswrfldnon","amovpknlmstpsraswrfldnon","amovpknlmstpsraswlnrdnon_amovpknlmstpsraswrfldnon_end","ainvpknlmstpsnonwrfldnon_medicend","ainvpknlmstpsnonwrfldr_medic2"];
 		if (vehicle player != player) then {
-			player switchAction "Unconscious";
+			if !(player getVariable ["EAMS_JustLoaded",false]) then {
+				player setVariable ["EAMS_JustLoaded",true];
+				player switchMove "Unconscious";
+				cutText ["You have been loaded into a vehicle (your screen is black so it doesn't twitch)","BLACK",0.1];
+			};
 		};
-		_badAnimations = ["amovpknlmstpsnonwnondnon","unconsciousoutprone","amovpercmstpsraswrfldnon","amovppnemstpsraswrfldnon","amovpknlmstpsraswrfldnon","amovpknlmstpsraswlnrdnon_amovpknlmstpsraswrfldnon_end","ainvpknlmstpsnonwrfldnon_medicend","ainvpknlmstpsnonwrfldr_medic2"];
 		if ((animationState player in _badAnimations) && vehicle player == player) then {
 	     player switchMove ""; player switchMove "unconsciousrevivedefault"; player playMove "unconsciousrevivedefault";
 	    };
+		if ((vehicle player == player) && player getVariable ["EAMS_JustLoaded",false]) then {
+			player switchMove ""; player switchMove "unconsciousrevivedefault"; player playMove "unconsciousrevivedefault";
+			player setVariable ["EAMS_JustLoaded",false];
+			cutText ["", "BLACK IN", 1];
+		};
 		//wait for unit to bleeding out be revived
 		_unit != player || {_blood <= 0  || {!alive _unit || {IS_NOTSAFEMOVELOCAL(_unit)}}}
 	};

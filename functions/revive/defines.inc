@@ -76,7 +76,7 @@
 #define EAMS_HEARTRATE					[60,0,100]
 
 #define AI_PROTECTION_ACTIVATE(unit)	if (!captive unit) then {unit setCaptive true;unit setVariable ['EAMS_Rev_Var_captiveForced',true];} else {unit setVariable ['EAMS_Rev_Var_captiveForced',false];}
-#define AI_PROTECTION_DEACTIVATE(unit)	if (unit getVariable ['EAMS_Rev_Var_captiveForced',false]) then {unit setVariable ['EAMS_Rev_Var_captiveForced',false];unit setCaptive false;}
+#define AI_PROTECTION_DEACTIVATE(unit)	if ((unit getVariable ['EAMS_Rev_Var_captiveForced',false]) || (captive unit)) then {unit setVariable ['EAMS_Rev_Var_captiveForced',false];unit setCaptive false;}
 
 /*--------------------------------------------------------------------------------------------------
 
@@ -126,6 +126,7 @@
 #define RETURN_DATAXTRA(transmitter,reciever,variable,type,selID,damage) [transmitter,reciever,variable,type,selID,damage] remoteExecCall ['eams_fnc_returnData',transmitter]
 #define RETURN_DATAXTRATAKE(transmitter,reciever,variable,type,selID,damage,takeaway) [transmitter,reciever,variable,type,selID,damage,takeaway] remoteExecCall ['eams_fnc_returnData',transmitter]
 #define RETURN_DATA(transmitter,reciever,variable) [transmitter,reciever,variable] remoteExecCall ['eams_fnc_returnData',transmitter]
+#define RETURN_DATANEW(transmitter,reciever,variable,woundvalue,woundkind,hitpointID) [transmitter,reciever,variable,woundvalue,woundkind,hitpointID] remoteExecCall ['eams_fnc_returnDataNew',transmitter]
 /*--------------------------------------------------------------------------------------------------
 
 	PLAYER STATES

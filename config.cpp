@@ -14,6 +14,7 @@ class CfgPatches {
 
 #include "data\ui\parentClasses.hpp"
 #include "data\ui\treatmentMenu.hpp"
+#include "cfgAmmo.hpp"
 
 class cfgWeapons {
 ADD_EAMS_MEDICAL_ITEMS();
@@ -35,7 +36,7 @@ class cfgVehicles {
 					displayName = "Load Patient";
 					condition = QUOTE(((_target getVariable ['ACE_isUnconscious',false]) && (alive _target) && (vehicle _target == _target)));
 					exceptions[] = {"isNotDragging", "isNotCarrying"};
-					statement = "[player, _target] spawn eams_fnc_ace_loadUnit";
+					statement = "[player, _target] call ace_common_fnc_loadPerson";
 					icon = "eams\data\ui\x_0.paa";
 					//insertChildren = QUOTE([_target] call eams_fnc_ace_addLoadPatientActions);
 				};
@@ -43,7 +44,7 @@ class cfgVehicles {
 					displayName = "Unload Patient";
 					condition = QUOTE(((_target getVariable ['ACE_isUnconscious',false]) && (alive _target) && !(vehicle _target == _target)));
 					exceptions[] = {"isNotDragging", "isNotCarrying", "isNotInside"};
-					statement = "[player, _target] spawn eams_fnc_ace_unloadUnit";
+					statement = "[_target,vehicle _target] remoteExecCall ['ace_common_fnc_unloadPersonLocal',2]";
 					icon = "eams\data\ui\x_0.paa";
 				};
 			};
@@ -223,6 +224,8 @@ class cfgFunctions {
 				class transmitData {};
 				class returnData {};
 				class recieveData {};
+				class returnDataNew {};
+				class recieveDataNew {};
 
 				class ace_loadUnit {};
 				class ace_unloadUnit {};
