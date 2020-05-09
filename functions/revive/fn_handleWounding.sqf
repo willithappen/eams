@@ -9,21 +9,21 @@ GrenadeBase --> Grenade
 params ["_hitPoint","_damage","_projectile"];
 _validHitPoints = ["hithead","hitbody","hitleftarm","hitrightarm","hitleftleg","hitrightleg"];
 _hitPointID = _validHitPoints find _hitPoint;
-// Basic = Other -- Velocity = Gunshots -- Avulsions = Explosions/Grenades -- Abrasions = Bruises/FallDamage
+// Bruises = Other -- Velocity = Gunshots -- Avulsions = Explosions/Grenades -- Abrasions = Bruises/FallDamage
 //																	Bruises		Velocity     Avulsions     Abrasions
 _allWounds = player getVariable [format ["EAMS-%1Wounds","All"],[[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]]];
 
 _woundArray = _allWounds select 0;
 _woundGroup = 0;
-_parent = [configFile >> "CfgAmmo" >> _projectile, true] call BIS_FNC_ReturnParents;
-_base = _parent select 2;
+//_parent = [configFile >> "CfgAmmo" >> _projectile, true] call BIS_FNC_ReturnParents;
+//_base = _parent select 2;
 _damageType = "unknown";
 if (isText (configFile >> "CfgAmmo" >> _projectile >> "EAMS_damageType")) then {
     _damageType = getText (configFile >> "CfgAmmo" >> _projectile >> "EAMS_damageType");
 } else {
     _damageType = "unknown";
 };
-systemChat format ["TYPE %1",_damageType];
+diag_log format ["TYPE %1",_damageType];
 switch (_damageType) do {
 	case "BulletDamage": {_woundArray = _allWounds select 1; _woundGroup = 1;};
 	case "ExplosiveDamage": {_woundArray = _allWounds select 2; _woundGroup = 2;};
@@ -34,7 +34,7 @@ _damageCurrent = _woundArray select _hitPointID;
 _damageNew = _damageCurrent + _damage;
 _woundArray set [_hitPointID,_damageNew];
 _allWounds set [_woundGroup,_woundArray];
-systemChat format ["%1 %2 %3 %4",_damageCurrent,_damageNew,_woundArray,_allWounds];
+diag_log format ["%1 %2 %3 %4",_damageCurrent,_damageNew,_woundArray,_allWounds];
 //Should the current state of the player also result in them being knocked out?
 //Additional damage can then occur after being knocked out, this will only extend the length of time they are knocked out, not renock them out
 _sumArray = {
@@ -98,12 +98,12 @@ if (_totalDamage > 0) then {
      _abrasions = [3,_array] call _sumArray;
      _totalDamage = _contusions + _velocities + _avulsions + _abrasions;
     if (_totalDamage == 0) then {_result = true};
-    _result
+    [_result,_totalDamage]
    };
    _allWounds = player getVariable [format ["EAMS-%1Wounds","All"],[[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]]];
-   [10] call BIS_fnc_bloodEffect;
    _healed = [_allWounds] call _isHealed;
-   _healed
+    [(_healed select 1) * 10] call BIS_fnc_bloodEffect;
+   (_healed select 0)
   };
   eams_isInjured = false;
  };
