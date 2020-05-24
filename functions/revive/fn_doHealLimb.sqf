@@ -40,7 +40,7 @@ if (_injured isEqualTo _healer) then {
 } else {
  _anim = ["AinvPknlMstpSlayWrflDnon_medicOther","AinvPpneMstpSlayWrflDnon_medicOther"] select (stance _healer == "PRONE");
 };
-_healer switchMove _anim;
+[_healer, _anim] call ace_common_fnc_doAnimation;
 _duration = eams_revive_duration/9;
 if (CAN_USE_MEDIKIT(_healer)) then {
 	_duration = eams_revive_durationMedic/2.2;
@@ -147,9 +147,9 @@ if (_healTime <= 0) then {_healTime = 1.5};
 		_arrayPlayer set [_woundKindSelection,_woundTypeToEdit];
 		player setVariable ["EAMS-AllWounds",_arrayPlayer];
 	};
-	player switchMove _priorAnimation;
+	[player, _priorAnimation,1] call ace_common_fnc_doAnimation;
 	waitUntil { !isNull findDisplay 46 };
-	[_injured,_healer] spawn eams_fnc_ui_treatmentMenu;
+	[_injured,_healer] spawn {[_this select 0,_this select 1] spawn eams_fnc_ui_treatmentMenu;};
 },{
 	if ((_args select 0) isEqualTo (_args select 1)) then {EAMS_RETURNITEM(_args select 1)} else {EAMS_RETURNITEM(_args select 0)};
 	   },'Bandaging...',{true},["isNotDragging","notOnMap","isNotInside"]] spawn ace_common_fnc_progressBar;

@@ -1,4 +1,5 @@
 #include "defines.inc"
+if (!hasInterface || {side player == sideLogic} || (typeOf player == "VirtualCurator_F")) exitWith {};
 disableSerialization;
 _display = findDisplay 3267;
 if !(isNull _display) exitWith {};

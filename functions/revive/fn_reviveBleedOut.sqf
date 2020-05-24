@@ -76,15 +76,15 @@ _unit spawn
 		if (vehicle player != player) then {
 			if !(player getVariable ["EAMS_JustLoaded",false]) then {
 				player setVariable ["EAMS_JustLoaded",true];
-				player switchMove "Unconscious";
+				[player, "Unconscious",2] call ace_common_fnc_doAnimation;
 				cutText ["You have been loaded into a vehicle (your screen is black so it doesn't twitch)","BLACK",0.1];
 			};
 		};
 		if ((animationState player in _badAnimations) && vehicle player == player) then {
-	     player switchMove ""; player switchMove "unconsciousrevivedefault"; player playMove "unconsciousrevivedefault";
+			[player, "unconsciousrevivedefault"] call ace_common_fnc_doAnimation;
 	    };
 		if ((vehicle player == player) && player getVariable ["EAMS_JustLoaded",false]) then {
-			player switchMove ""; player switchMove "unconsciousrevivedefault"; player playMove "unconsciousrevivedefault";
+			[player, "unconsciousrevivedefault"] call ace_common_fnc_doAnimation;
 			player setVariable ["EAMS_JustLoaded",false];
 			cutText ["", "BLACK IN", 1];
 		};

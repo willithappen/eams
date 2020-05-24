@@ -125,8 +125,8 @@ switch (_state) do
 		_unit setVariable ["ACE_isUnconscious",false,true];
 		//display "revived" message in kill-feed; only if revived unit is friendly
 		AI_PROTECTION_DEACTIVATE(_unit);
-		_unit switchMove "Stop";
-		_unit switchMove "";
+		[_unit, "Stop",2] call ace_common_fnc_doAnimation;
+		[_unit, "",2] call ace_common_fnc_doAnimation;
 		if (local _unit) then
 		{
 			systemChat str(_unit);
@@ -147,8 +147,8 @@ switch (_state) do
 			AI_PROTECTION_DEACTIVATE(_unit);
 
 			//hotfix: revived while performing an action & playing animation
-			_unit switchMove "Stop";
-			_unit switchMove "";
+			[_unit, "Stop",2] call ace_common_fnc_doAnimation;
+			[_unit, "",2] call ace_common_fnc_doAnimation;
 
 			//hotfix: revived while having no weapon or binocular
 			if ({currentWeapon player == _x} count ["",binocular player] > 0) then
