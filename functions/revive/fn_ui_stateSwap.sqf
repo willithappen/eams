@@ -3,6 +3,7 @@
 #define TO_REVIVED								2
 #define TO_DEAD									3
 #define TO_INCON								4
+#define TO_GREEN								5
 #include "defines.inc"
 params ["_unit","_stateToSet"];
 switch (_stateToSet) do {
@@ -25,4 +26,5 @@ switch (_stateToSet) do {
 	};
 	case TO_DEAD: {};
 	case TO_INCON: {};
+	case TO_GREEN: {SET_STATELOCAL(player,STATE_STABILIZED)};
 };
