@@ -212,13 +212,11 @@ class cfgFunctions {
 				class reviveOnStateJIP {};
 				class reviveOnBeingRevived {};
 				class reviveOnForcingRespawn {};
-				class reviveEhKilled {};
 				class reviveEhRespawn {};
 				class reviveEhHandleDamage {};
 				class reviveDamageReset {};
 				class stabilizeIsValid {};
 				class stabilizeAllowed {};
-				class ReviveStabilize {};
 				class ReviveOnBeingStabilized {};
 				class requestData {};
 				class transmitData {};
@@ -226,10 +224,6 @@ class cfgFunctions {
 				class recieveData {};
 				class returnDataNew {};
 				class recieveDataNew {};
-
-				class ace_loadUnit {};
-				class ace_unloadUnit {};
-				class ace_addLoadPatientActions {};
 			};
 		};
 	};
