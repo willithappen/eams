@@ -253,7 +253,7 @@ class EAMS_RscBUTTON
 	 idc = -1; // Control identification (without it, the control won't be displayed)
 	type = CT_BUTTON; // Type
 	style = ST_LEFT; // Style
-	default = 1; // Control selected by default (only one within a display can be used)
+	default = 0; // Control selected by default (only one within a display can be used)
 	blinkingPeriod = 0; // Time in which control will fade out and back in. Use 0 to disable the effect.
 
 	x = 1 * GUI_GRID_CENTER_W + GUI_GRID_CENTER_X; // Horizontal coordinates
