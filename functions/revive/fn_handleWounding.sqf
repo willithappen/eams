@@ -23,18 +23,32 @@ if (isText (configFile >> "CfgAmmo" >> _projectile >> "EAMS_damageType")) then {
 } else {
     _damageType = "unknown";
 };
-diag_log format ["TYPE %1",_damageType];
+diag_log format ["EAMS Client: Player taken damage of type %1",_damageType];
 switch (_damageType) do {
 	case "BulletDamage": {_woundArray = _allWounds select 1; _woundGroup = 1;};
 	case "ExplosiveDamage": {_woundArray = _allWounds select 2; _woundGroup = 2;};
-	case "unknown": {_woundArray = _allWounds select 3; _woundGroup = 0;};
+	case "unknown": {_woundArray = _allWounds select 0; _woundGroup = 0;};
 	default {_woundArray = _allWounds select 0; _woundGroup = 0;};
 };
 _damageCurrent = _woundArray select _hitPointID;
-_damageNew = _damageCurrent + _damage;
+_damageNew = _damageCurrent + 1;
+if ((_woundGroup != 0) && (_woundGroup != 2) && (_damage >= 1)) then {
+	_damageCurrentAbrasion = _woundArray select 3;
+	_damageDifference = _damage - 1;
+	_damageAbrasionNew = _damageDifference + _damageCurrentAbrasion;
+	(_allWounds select 3) set [_hitPointID,_damageAbrasionNew];
+	_allWounds set [3,_allWounds select 3];
+};
+/*
+if ((_woundGroup != 0) && (_woundGroup != 2) && (_damage < 1.5)) then {
+	_minorAbrasion = random _damageDifference;
+	(_allWounds select 3) set [_hitPointID,_minorAbrasion];
+	_allWounds set [3,_allWounds select 3];
+};
+*/
 _woundArray set [_hitPointID,_damageNew];
 _allWounds set [_woundGroup,_woundArray];
-diag_log format ["%1 %2 %3 %4",_damageCurrent,_damageNew,_woundArray,_allWounds];
+diag_log format ["EAMS Client: %1 %2 %3 %4",_damageCurrent,_damageNew,_woundArray,_allWounds];
 //Should the current state of the player also result in them being knocked out?
 //Additional damage can then occur after being knocked out, this will only extend the length of time they are knocked out, not renock them out
 _sumArray = {
@@ -56,15 +70,15 @@ _shouldKO = {
   _result = false;
   _extreme = false;
   if (_totalDamage >= eams_fatalDamageGlobal) then {_result = true};
-  if (_totalDamage >= 20) then {_extreme = true};
+  if (_totalDamage >= eams_fatalDamageGlobal * 2) then {_extreme = true};
   [_result,_extreme]
 };
 _KO = [_allWounds] call _shouldKO;
 if (_KO select 0) then {
-	SET_STATE(_unit,STATE_INCAPACITATED);
+	SET_STATELOCAL(player,STATE_INCAPACITATED);
 };
 if (_KO select 1) then {
-	_unit setDamage 1;
+	player setDamage 1;
 };
 _contusions = [0,_allWounds] call _sumArray;
 _velocities = [1,_allWounds] call _sumArray;
@@ -74,12 +88,11 @@ _totalDamage = (_contusions / 3) + _velocities + (_avulsions / 3) + (_abrasions 
 //   [10] call BIS_fnc_bloodEffect; Light splatter
 //   [50] call BIS_fnc_bloodEffect;
 //    [100] call BIS_fnc_bloodEffect; heavy splatter
-if (_totalDamage > 0) then {
+if ((_totalDamage > 0) && !(eams_isInjured)) then {
  [] spawn {
-  if (eams_isInjured) exitWith {};
   waitUntil {
    eams_isInjured = true;
-   sleep 3;
+   sleep 1;
    _isHealed = {
     params ["_array"];
     _result = false;
