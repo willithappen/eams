@@ -141,6 +141,7 @@
 #define GET_STATE_STR(state)						format['%1(%2)',['RESPAWNED','REVIVED','INCAPACITATED','DEAD','STABILIZED'] select state,state]
 
 #define SET_STATE(unit,state)						['',state,unit] remoteExecCall ['eams_fnc_reviveOnState',unit];missionNameSpace setVariable [VAR_STATE, state, true]; RETURN_DATA(player,unit,VAR_STATE)
+#define SET_STATELOCAL(unit,state)					['',state,unit] call eams_fnc_reviveOnState; missionNameSpace setVariable [VAR_STATE, state, true]
 #define SET_STATE_XTRA(unit,state,source)			['',[state,source],unit] call eams_fnc_reviveOnState;unit setVariable [VAR_TRANSFER_STATE, [state,source], true]
 #define SET_STATE_XTRA2(unit,state,source,reason)	['',[state,source,reason],unit] call eams_fnc_reviveOnState;unit setVariable [VAR_TRANSFER_STATE, [state,source,reason], true]
 
