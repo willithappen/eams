@@ -72,19 +72,19 @@ _unit spawn
 		//ToDo: Make array of checks for weird cases where animation can wig out
 		// ["amovpknlmstpsnonwnondnon","unconsciousoutprone","amovpercmstpsraswrfldnon","amovppnemstpsraswrfldnon","amovpknlmstpsraswrfldnon","amovpknlmstpsraswlnrdnon_amovpknlmstpsraswrfldnon_end","ainvpknlmstpsnonwrfldnon_medicend","ainvpknlmstpsnonwrfldr_medic2"]
 		// Bad Animations ^
-		_badAnimations = ["amovpknlmstpsnonwnondnon","unconscious","unconsciousoutprone","amovpercmstpsraswrfldnon","amovppnemstpsraswrfldnon","amovpknlmstpsraswrfldnon","amovpknlmstpsraswlnrdnon_amovpknlmstpsraswrfldnon_end","ainvpknlmstpsnonwrfldnon_medicend","ainvpknlmstpsnonwrfldr_medic2"];
+		_badAnimations = ["civil","amovpknlmstpsnonwnondnon","unconscious","unconsciousoutprone","amovpercmstpsraswrfldnon","amovppnemstpsraswrfldnon","amovpknlmstpsraswrfldnon","amovpknlmstpsraswlnrdnon_amovpknlmstpsraswrfldnon_end","ainvpknlmstpsnonwrfldnon_medicend","ainvpknlmstpsnonwrfldr_medic2"];
 		if (vehicle player != player) then {
 			if !(player getVariable ["EAMS_JustLoaded",false]) then {
 				player setVariable ["EAMS_JustLoaded",true];
-				[player, "Unconscious",2] call ace_common_fnc_doAnimation;
-				cutText ["You have been loaded into a vehicle (your screen is black so it doesn't twitch)","BLACK",0.1];
+				[player, "unconscious"] call ace_common_fnc_doAnimation;
+				//cutText ["You have been loaded into a vehicle (your screen is black so it doesn't twitch)","BLACK",0.1];
 			};
 		};
 		if ((animationState player in _badAnimations) && vehicle player == player) then {
-			[player, "unconsciousrevivedefault"] call ace_common_fnc_doAnimation;
+			[player, "unconsciousrevivedefault",2] call ace_common_fnc_doAnimation;
 	    };
 		if ((vehicle player == player) && player getVariable ["EAMS_JustLoaded",false]) then {
-			[player, "unconsciousrevivedefault"] call ace_common_fnc_doAnimation;
+			[player, "unconsciousrevivedefault",2] call ace_common_fnc_doAnimation;
 			player setVariable ["EAMS_JustLoaded",false];
 			cutText ["", "BLACK IN", 1];
 		};
