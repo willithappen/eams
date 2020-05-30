@@ -7,17 +7,17 @@ $[1.063,["EAMS_TreatmentMenu",[["safezoneX","safezoneY","safezoneW","safezoneH"]
 
 class EAMS_GUI_TreatmentMenuBase {
 	idd= 3267;
-	onLoad = "['hitbody',uiNameSpace getVariable ['EAMS-CurrentPatient',objNull]] spawn eams_fnc_ui_treatmentMenu_state;";
-	onUnload = "uiNameSpace setVariable ['EAMS-CurrentPatient',objNull]; missionNameSpace setVariable ['EAMS-AllWounds-Target',[0]];";
+	onLoad = "[uiNameSpace getVariable ['EAMS-SelectedBodyPart','hitbody'],uiNameSpace getVariable ['EAMS-CurrentPatient',objNull]] spawn eams_fnc_ui_treatmentMenu_state;";
+	onUnload = "uiNameSpace setVariable ['EAMS-LastPatient',uiNameSpace getVariable 'EAMS-CurrentPatient']; uiNameSpace setVariable ['EAMS-CurrentPatient',objNull]; missionNameSpace setVariable ['EAMS-AllWounds-Target',[0]];";
 	class ControlsBackground {
 		class Background {
 			idc = -1;
 			type = CT_STATIC;
 			style = ST_LEFT;
-			x = 0.3 * safezoneW + safezoneX;
-			y = 0.24 * safezoneH + safezoneY;
-			w = 0.4 * safezoneW;
-			h = 0.52 * safezoneH;
+			x = 0.348303 * safezoneW + safezoneX;
+			y = 0.30508 * safezoneH + safezoneY;
+			w = 0.33 * safezoneW;
+			h = 0.286 * safezoneH;
 			colorBackground[] = {0.4,0.6,0.6,0.05};
 			colorText[] = {0,0,0,0};
 			font = "RobotoCondensedBold";
@@ -31,23 +31,33 @@ class EAMS_GUI_TreatmentMenuBase {
 		class EAMS_GUI_TM_Frame: EAMS_RscFrame
 		{
 			idc = 1800;
-			text = "EAMS Treatment Menu (GUI v1)"; //--- ToDo: Localize;
-			x = 0.3 * safezoneW + safezoneX;
-			y = 0.24 * safezoneH + safezoneY;
-			w = 0.4 * safezoneW;
-			h = 0.52 * safezoneH;
+			text = "EAMS Treatment Menu (GUI v2)"; //--- ToDo: Localize;
+			x = 0.348303 * safezoneW + safezoneX;
+			y = 0.30508 * safezoneH + safezoneY;
+			w = 0.33 * safezoneW;
+			h = 0.286 * safezoneH;
 			default = 0; // Control selected by default (only one within a display can be used)
 		};
 		class EAMS_GUI_TM_TreatingName: EAMS_RscText
 		{
 			idc = 1001;
 			text = "Treating: Not Defined"; //--- ToDo: Localize;
-			colorBackground[] = {0,0,0,0};
-			x = 0.3 * safezoneW + safezoneX;
-			y = 0.26 * safezoneH + safezoneY;
-			w = 0.2 * safezoneW;
-			h = 0.04 * safezoneH;
+			x = 0.350469 * safezoneW + safezoneX;
+			y = 0.51804 * safezoneH + safezoneY;
+			w = 0.149531 * safezoneW;
+			h = 0.033 * safezoneH;
 			default = 0; // Control selected by default (only one within a display can be used)
+		};
+		class EAMS_GUI_TM_TreatingLimb: EAMS_RscText
+		{
+			idc = 1002;
+			default = 0;
+
+			text = "Treating: Not Defined"; //--- ToDo: Localize;
+			x = 0.525781 * safezoneW + safezoneX;
+			y = 0.313 * safezoneH + safezoneY;
+			w = 0.0928125 * safezoneW;
+			h = 0.044 * safezoneH;
 		};
 		class EAMS_GUI_TM_SelectHead: EAMS_RscButton
 		{
@@ -113,7 +123,7 @@ class EAMS_GUI_TreatmentMenuBase {
 			w = 0.05 * safezoneW;
 			h = 0.04 * safezoneH;
 			onButtonClick = "['hitbody'] call eams_fnc_ui_treatmentMenu_state;";
-			default = 1; // Control selected by default (only one within a display can be used)
+			default = 0; // Control selected by default (only one within a display can be used)
 		};
 		class EAMS_GUI_TM_StateBox: EAMS_RscLISTBOX
 		{
@@ -136,7 +146,7 @@ class EAMS_GUI_TreatmentMenuBase {
 			h = 0.04 * safezoneH;
 			deletable = true;
 			onButtonClick = "[uiNameSpace getVariable ['EAMS-CurrentPatient',player],uiNameSpace getVariable ['EAMS-SelectedBodyPart','hitBody']] spawn eams_fnc_doHealLimb;";
-			default = 0; // Control selected by default (only one within a display can be used)
+			default = 1; // Control selected by default (only one within a display can be used)
 		};
 		class EAMS_GUI_TM_SelectExtraAction: EAMS_RscButton
 		{
