@@ -122,11 +122,8 @@ switch (_state) do
 		//flag unit as being NOT incapacitated
 		_unit setVariable ["eams_revive_incapacitated", false];
 		_unit setVariable ["eams_revive_unstable", false];
-		_unit setVariable ["ACE_isUnconscious",false,true];
 		//display "revived" message in kill-feed; only if revived unit is friendly
 		AI_PROTECTION_DEACTIVATE(_unit);
-		[_unit, "Stop",2] call ace_common_fnc_doAnimation;
-		[_unit, "",2] call ace_common_fnc_doAnimation;
 		if (local _unit) then
 		{
 			systemChat str(_unit);
@@ -141,14 +138,13 @@ switch (_state) do
 			eams_revive_bleeding = false;
 
 			//remove unconscious state
-			_unit setUnconscious false;
+			player setUnconscious false;
 
 			//allow AI shooting the unit
 			AI_PROTECTION_DEACTIVATE(_unit);
 
 			//hotfix: revived while performing an action & playing animation
-			[_unit, "Stop",2] call ace_common_fnc_doAnimation;
-			[_unit, "",2] call ace_common_fnc_doAnimation;
+			[player, "",2] call ace_common_fnc_doAnimation;
 
 			//hotfix: revived while having no weapon or binocular
 			if ({currentWeapon player == _x} count ["",binocular player] > 0) then
@@ -156,7 +152,7 @@ switch (_state) do
 				[] spawn
 				{
 					sleep 0.1;
-					if (({currentWeapon player == _x} count ["",binocular player] > 0) && {IS_ACTIVE(player)}) then {player playAction "Civil";};
+					if (({currentWeapon player == _x} count ["",binocular player] > 0) && {IS_ACTIVE(player)}) then {[player, "civil",2] call ace_common_fnc_doAnimation;};
 				};
 			};
 
