@@ -147,7 +147,7 @@ if (_healTime <= 0) then {_healTime = 1.5};
 		_arrayPlayer set [_woundKindSelection,_woundTypeToEdit];
 		player setVariable ["EAMS-AllWounds",_arrayPlayer];
 	};
-	[player, _priorAnimation,1] call ace_common_fnc_doAnimation;
+	[player, _priorAnimation,2] call ace_common_fnc_doAnimation;
 	waitUntil { !isNull findDisplay 46 };
 	[_injured,_healer] spawn {[_this select 0,_this select 1] spawn eams_fnc_ui_treatmentMenu;};
 },{
