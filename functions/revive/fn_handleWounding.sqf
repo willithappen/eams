@@ -119,6 +119,7 @@ if ((_totalDamage > 0) && !(eams_isInjured)) then {
    (_healed select 0)
   };
   eams_isInjured = false;
+  player setDamage 0;
  };
 };
 player setVariable [format ["EAMS-%1Wounds","All"],_allWounds];
