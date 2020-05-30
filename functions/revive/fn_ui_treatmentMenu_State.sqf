@@ -8,9 +8,13 @@ waituntil {
 	count _woundsArray > 1
 };
 _woundsArray = missionNameSpace getVariable ["EAMS-AllWounds-Target",[0]];
+//_selection = "hithead";
+_lastPatient = uiNameSpace getVariable ['EAMS-LastPatient',objNull];
+if ((!isNull _lastPatient) && !(_lastPatient isEqualTo _target)) then {
+	uiNameSpace setVariable ["EAMS-SelectedBodyPart",'hitbody'];
+} else {uiNameSpace setVariable ["EAMS-SelectedBodyPart",_selection];};
 //_allWounds = player getVariable [format ["EAMS-%1Wounds","All"],[[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]]];
 ctrlSetText [1001,format['Currently Treating: %1',name _target]];
-uiNameSpace setVariable ["EAMS-SelectedBodyPart",_selection];
 lbClear 1100;
 ctrlSetText [1607,""];
 _sumArray = {
@@ -53,10 +57,10 @@ _establishTextColors = {
 //systemChat format ["%1 is the array prior to color",_woundsArray];
 [_woundsArray,_damagesTotal] spawn _establishTextColors;
 if ((_selection isEqualTo "hitbody") && !(_target isEqualTo player)) then {
-	_switchStateStabilize = _damagesTotal findIf {_x > 1.75};
+	_switchStateStabilize = _damagesTotal findIf {_x > 2};
 	_switchStateRevive = _damagesTotal findIf {_x > 0};
 	if !(lifeState _target == "INCAPACITATED") then {
-	ctrlEnable [1607,false];ctrlSetText [1607,"ALIVE"];
+	ctrlSetText [1607,"ALIVE"];
 	ctrlEnable [1607,false];
 	} else {
 		_patientStatus = UINameSpace getVariable "EAMS-CurrentPatientStatus";
@@ -83,11 +87,16 @@ if ((_selection isEqualTo "hitbody") && !(_target isEqualTo player)) then {
 	};
 } else {ctrlEnable [1607,false];};
 
+if (!(_selection isEqualTo "hitbody") && !(_target isEqualTo player)) then {
+} else {ctrlEnable [1607,false];};
+
+
 _validHitPoints = ["hithead","hitbody","hitleftarm","hitrightarm","hitleftleg","hitrightleg"];
 _PrettyHitPoints = ["Head","Chest","Left Arm","Right Arm","Left Leg","Right Leg"];
 //[head,chest,larm,rarm,lleg,rleg]
 _hitPointID = _validHitPoints find _selection;
 _prettyName = _PrettyHitPoints select _hitPointId;
+ctrlSetText [1002,format['%1',_prettyName]];
 _totalDamage = _contusions + _velocities + _avulsions + _abrasions;
 _limbDamage = _damagesTotal select _hitPointId;
 _woundFloor = floor _limbDamage;
@@ -102,31 +111,33 @@ lbAdd [1100,"0x Contusions"];
 lbAdd [1100,"0x Velocity Wounds"];
 lbAdd [1100,"0x Avulsions"];
 lbAdd [1100,"0x Abrasions"];
+_lbEmptyAfter = -1;
 {
-	{
-		_wounds = [_woundsArray select 0,_woundsArray select 1,_woundsArray select 2,_woundsArray select 3];
-		_woundTypeSelection = _wounds select _forEachIndex;
-		_limbDamage = _woundTypeSelection select _hitPointId;
-		_limbFloor = floor _limbDamage;
-		_limbMinor = _limbDamage - _limbFloor;
-		//systemChat format ["from %1",_limbDamage];
-		((findDisplay 3267) displayCtrl 1100) lbSetText [_forEachIndex, format ["%1x %2s",_limbFloor, _x]];
-		if ((_limbFloor < 1) && (_limbMinor > 0)) then {((findDisplay 3267) displayCtrl 1100) lbSetText [_forEachIndex, format ["Minor %1", _x]];};
-		_text = lbText [1100,_forEachIndex];
-		_splitArr = _text splitString "x ";
-		_num = _splitArr select 0;
-		if (_num isEqualTo "0") then {((findDisplay 3267) displayCtrl 1100) lbSetText [_forEachIndex, format ["No %1s", _x]];};
+	_wounds = [_woundsArray select 0,_woundsArray select 1,_woundsArray select 2,_woundsArray select 3];
+	_woundTypeSelection = _wounds select _forEachIndex;
+	_limbDamage = _woundTypeSelection select _hitPointId;
+	_limbFloor = floor _limbDamage;
+	_limbMinor = _limbDamage - _limbFloor;
+	//systemChat format ["from %1",_limbDamage];
+	((findDisplay 3267) displayCtrl 1100) lbSetText [_forEachIndex, format ["%1x %2s",_limbFloor, _x]];
+	if (_limbFloor >= 1) then {lbSetValue [1100,_forEachIndex,_limbFloor];};
+	if ((_limbFloor < 1) && (_limbMinor > 0)) then {((findDisplay 3267) displayCtrl 1100) lbSetText [_forEachIndex, format ["Minor %1", _x]]; lbSetValue [1100,_forEachIndex,_limbDamage]};
+	_text = lbText [1100,_forEachIndex];
+	_splitArr = _text splitString "x ";
+	_num = _splitArr select 0;
+	if (_num isEqualTo "0" && !(_num isEqualTo "Minor")) then {((findDisplay 3267) displayCtrl 1100) lbSetText [_forEachIndex, format ["", _x]];lbSetValue [1100,_forEachIndex,0]};
 	}forEach ["Contusion","Velocity Wound","Avulsion","Abrasion"];
-}forEach _woundsArray;
-/*if (_woundMinor > 0) then {
-	_woundMinorCount = ceil _woundMinor;
-	if (_woundFloor < 1) then {
-		lbClear 1100;
-	};
-	lbAdd [1100,format ["%1x Minor Wound",_woundMinorCount]];
-};*/
+lbSort [1100,"DESC"];
+{
+	_value = lbText [1100,_forEachIndex];
+	if (_value == "") exitWith {_lbEmptyAfter = _forEachIndex;};
+	}forEach ["Contusion","Velocity Wound","Avulsion","Abrasion"];
+//for "_x" from _lbEmptyAfter to 3 do {lbDelete [1100,_lbEmptyAfter]};
+for "_r" from _lbEmptyAfter to 3 do {lbDelete [1100,_lbEmptyAfter]};
+//lbAdd [1100,format ["Selected %1",_prettyName]];
 if ((CAN_USE_EAMSITEM2(player,_target,'EAMS_BasicBandage')) || ((CAN_USE_EAMSITEM2(player,_target,'EAMS_BasicBandage_Half')) && (_woundMinor > 0))) then {
 	ctrlEnable [1606,true];
+	((findDisplay 3267) displayCtrl 1606) ctrlSetTextColor [0.322,0.988,0.012,1];
 	ctrlSetText [1606,"BANDAGE"];
 } else {
 	((findDisplay 3267) displayCtrl 1606) ctrlSetTextColor [1,0,0,1];
