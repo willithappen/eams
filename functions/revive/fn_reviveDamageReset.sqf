@@ -1,6 +1,6 @@
 ﻿#include "defines.inc"
 /*
-	Author: Jiri Wainar
+	Author: willithappen
 
 	Description:
 	Resets player"s damage data and recieved damage. Works only locally for player.
@@ -17,5 +17,5 @@
 
 if (isNull player) exitWith {};
 
-{player setHitPointDamage [_x,0]} forEach (getAllHitPointsDamage player select 0);
 player setDamage 0;
+player setVariable [format ["EAMS-%1Wounds","All"],[[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0],[0,0,0,0,0,0]]];
