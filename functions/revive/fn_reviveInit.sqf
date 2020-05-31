@@ -54,7 +54,7 @@ addMissionEventHandler ["eachFrame", {
 		_damage = _arrayDissect select 0;
 		_hit = _arrayDissect select 1;
 		_projectile = _arrayDissect select 3;
-		systemChat str (_arrayDissect);
+		//systemChat str (_arrayDissect);
 		[_hit,_damage,_projectile] call EAMS_fnc_handleWounding;
 	};
 }];

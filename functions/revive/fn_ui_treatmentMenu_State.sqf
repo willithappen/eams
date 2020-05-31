@@ -57,7 +57,7 @@ _establishTextColors = {
 //systemChat format ["%1 is the array prior to color",_woundsArray];
 [_woundsArray,_damagesTotal] spawn _establishTextColors;
 if ((_selection isEqualTo "hitbody") && !(_target isEqualTo player)) then {
-	_switchStateStabilize = _damagesTotal findIf {_x > 2};
+	_switchStateStabilize = _damagesTotal findIf {_x > 1.25};
 	_switchStateRevive = _damagesTotal findIf {_x > 0};
 	if !(lifeState _target == "INCAPACITATED") then {
 	ctrlSetText [1607,"ALIVE"];
@@ -87,8 +87,7 @@ if ((_selection isEqualTo "hitbody") && !(_target isEqualTo player)) then {
 	};
 } else {ctrlEnable [1607,false];};
 
-if (!(_selection isEqualTo "hitbody") && !(_target isEqualTo player)) then {
-} else {ctrlEnable [1607,false];};
+//if (!(_selection isEqualTo "hitbody") && !(_target isEqualTo player)) then {} else {};
 
 
 _validHitPoints = ["hithead","hitbody","hitleftarm","hitrightarm","hitleftleg","hitrightleg"];

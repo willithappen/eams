@@ -31,7 +31,7 @@ class EAMS_GUI_TreatmentMenuBase {
 		class EAMS_GUI_TM_Frame: EAMS_RscFrame
 		{
 			idc = 1800;
-			text = "EAMS Treatment Menu (GUI v2)"; //--- ToDo: Localize;
+			text = "EAMS Treatment Menu (GUI v2.1)"; //--- ToDo: Localize;
 			x = 0.348303 * safezoneW + safezoneX;
 			y = 0.30508 * safezoneH + safezoneY;
 			w = 0.33 * safezoneW;
